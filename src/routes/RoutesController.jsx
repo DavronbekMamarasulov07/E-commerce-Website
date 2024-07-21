@@ -1,28 +1,30 @@
-import React from 'react'
+import {lazy } from 'react'
 import { useRoutes } from 'react-router-dom'
-import Home from './home/Home'
-import Login from './auth/login/Login'
-import Register from './auth/register/Register'
-import Auth from './auth/Auth'
+import Suspense from '../utils/index.jsx'
+
+const Home = lazy (() => import('./home/Home.jsx'))
+const Auth = lazy (() => import('./auth/Auth.jsx'))
+const Login = lazy (() => import('./auth/login/Login.jsx'))
+const Register = lazy    (() => import('./auth/register/Register.jsx'))
 
 const RoutesController = () => {
   return useRoutes([
     {
         path: "",
-        element: <Home/>,
+        element:<Suspense ><Home/></Suspense>,
         
     },
     {
         path: "auth",
-        element: <Auth/>,
+        element: <Suspense ><Auth/></Suspense>,
         children: [
             {
                 path: "",
-                element: <Login/>
+                element: <Suspense ><Login/></Suspense>,
             },
             {
                 path: "register",
-                element: <Register/>
+                element:  <Suspense ><Register/></Suspense>,
             }
         ]
     }
