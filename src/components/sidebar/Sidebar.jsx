@@ -63,7 +63,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                 trigger={null}
                 collapsible
                 collapsed={collapsed}
-                className="py-7 px-2 "
+                className="pt-1 pb-7 px-2 "
             >
                 <div className="flex items-center gap-5 p-3  ">
                     <Badge size="large" count={3}>
