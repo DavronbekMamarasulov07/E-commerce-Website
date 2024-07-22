@@ -1,10 +1,11 @@
 import { Button, Checkbox, Divider, Form, Input, Typography, notification } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, json, useNavigate } from 'react-router-dom';
 import axios from '../../../api';
 import { saveToLocalStorage } from '../../../helpers';
 import { ERROR, LOADING, LOGIN_SUCCESS } from '../../../redux/actions/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react'; 
+import { useState } from 'react';
+import TelegramLoginButton from 'telegram-login-button'
 import { GoogleLogin } from '@react-oauth/google';
 
 const { Title, Text } = Typography;
@@ -26,12 +27,10 @@ const Login = () => {
           description: 'You have successfully logged in.',
         });
         dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
-        saveToLocalStorage('user', data.user);
-        saveToLocalStorage('token', data.token);
         setTimeout(() => {
-          navigate("/")
+          navigate("/dashboard")
 
-        }, 2000)
+        }, 1000)
 
       } else {
         throw new Error("Something went wrong");
@@ -51,7 +50,6 @@ const Login = () => {
     console.log('Failed:', errorInfo);
   };
 
-  console.log(authData)
 
   return (
     <Form
@@ -112,21 +110,56 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item className='text-center'>
-        <Button  type="primary" htmlType="submit" className='w-[70%] margin-auto'>
+        <Button loading={authData.loading} disabled={authData.loading} type="primary" htmlType="submit" className='w-[70%] margin-auto'>
           Login
         </Button>
       </Form.Item>
 
       <Divider><Text>Or</Text></Divider>
-      <div className='flex items-center justify-center w-full mb-5'>
+      <div className='flex items-center justify-center w-full mb-5 gap-2 flex-col'>
 
-        <GoogleLogin
-          onSuccess={credentialResponse => {
-            console.log(credentialResponse);
+      <GoogleLogin
+          onSuccess={async credentialResponse => {
+            const decodedData = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
+            const user = {
+              username: decodedData.email,
+              password: decodedData.sub,
+            }
+            try {
+              dispatch({ type: LOADING });
+              const res = await axios.post("/auth/login", user);
+              const data = res.data.payload;
+              if (res.status === 200 && data.token) {
+                notification.success({
+                  message: 'Login Successful',
+                  description: 'You have successfully logged in.',
+                });
+                dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
+                setTimeout(() => {
+                  navigate("/dashboard")
+        
+                }, 1000)
+        
+              } else {
+                throw new Error("Something went wrong");
+              }
+              form.resetFields();
+            } catch (error) {
+              console.log(error);
+              dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
+              notification.error({
+                message: 'Login Failed',
+                description: error.response?.data?.message || 'Something went wrong.',
+              });
+            }
           }}
           onError={() => {
             console.log('Login Failed')
           }}
+        />
+        <TelegramLoginButton
+          botName="commerse_auth_bot"
+          dataOnauth={(user) => console.log(user)}
         />
       </div>
 

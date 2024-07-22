@@ -1,11 +1,16 @@
 import {lazy } from 'react'
 import { useRoutes } from 'react-router-dom'
 import Suspense from '../utils/index.jsx'
+const Login = lazy (() => import('./auth/login/Login.jsx'))
+const Register = lazy    (() => import('./auth/register/Register.jsx'))
+const Products = lazy (() => import('./dashboard/products/Products.jsx'))
+const Users = lazy (() => import('./dashboard/users/Users.jsx'))
 
 const Home = lazy (() => import('./home/Home.jsx'))
 const Auth = lazy (() => import('./auth/Auth.jsx'))
-const Login = lazy (() => import('./auth/login/Login.jsx'))
-const Register = lazy    (() => import('./auth/register/Register.jsx'))
+const Dashboard = lazy (() => import('./dashboard/Dashboard.jsx'))
+const Protected = lazy (() => import('./protected/Protecdet.jsx'))
+
 
 const RoutesController = () => {
   return useRoutes([
@@ -27,7 +32,28 @@ const RoutesController = () => {
                 element:  <Suspense ><Register/></Suspense>,
             }
         ]
-    }
+    },
+    {
+        path: "dashboard",
+        element: <Suspense ><Protected/></Suspense>,
+        children: [
+            {
+                path: "",
+                element: <Suspense ><Dashboard/></Suspense>,
+                children: [
+                    {
+                        path: "",
+                        element: <Suspense ><Products/></Suspense>,
+                    },
+                    {
+                        path: "users",
+                        element: <Suspense ><Users/></Suspense>,
+                    }
+                ]
+            }
+        ]
+    },
+    
   ])
 }
 

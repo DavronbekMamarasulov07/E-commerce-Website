@@ -1,9 +1,10 @@
+import { saveToLocalStorage } from "../../helpers"
 import { ERROR, LOADING, LOGIN_SUCCESS, REGISTER_SUCCESS } from "../actions/types"
 
 const InitialState = {
-    loading : localStorage.getItem("token") || null,
+    loading : false,
     user : null,
-    token: null,
+    token: localStorage.getItem("token"),
     error: null,
     isSucess: false,
     isError: false
@@ -14,6 +15,7 @@ const  AuthReducer = (state = InitialState, action) => {
     switch (action.type) {
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
+            saveToLocalStorage("token", action.token)
             return {
                 ...state,
                 loading: false,

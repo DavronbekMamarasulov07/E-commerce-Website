@@ -1,11 +1,10 @@
 import { Button, Checkbox, Divider, Form, Input, Typography, message, notification } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../../api';
-import { saveToLocalStorage } from '../../../helpers';
 import { useDispatch, useSelector } from 'react-redux';
 import { ERROR, LOADING, REGISTER_SUCCESS } from '../../../redux/actions/types';
-import { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import TelegramLoginButton from 'telegram-login-button'
 
 
 
@@ -17,7 +16,6 @@ const Register = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const authData = useSelector(state => state)
-  console.log(authData)
 
 
   const onFinish = async (values) => {
@@ -130,14 +128,47 @@ const Register = () => {
         </Button>
       </Form.Item>
       <Divider><Text>Or</Text></Divider>
-      <div className='flex items-center justify-center w-full mb-5'>
+      <div className='flex items-center justify-center w-full mb-5 gap-2 flex-col'>
         <GoogleLogin
-          onSuccess={credentialResponse => {
-            console.log(credentialResponse);
+          onSuccess={async credentialResponse => {
+            const decodedData = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
+            const user = {
+              first_name: decodedData.given_name,
+              username: decodedData.email,
+              password: decodedData.sub,
+            }
+            try {
+              dispatch({ type: LOADING })
+              const res = axios.post("/auth", user);
+              const data = res.data.payload;
+              if (res.status === 200 && data.token) {
+                notification.success({
+                  message: 'Login Successful',
+                  description: 'You have successfully logged in.',
+                });
+                dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
+                // setTimeout(() => {
+                //   navigate("/")
+              }
+              else {
+                throw new Error("Something went wrong");
+              }
+            } catch (error) {
+              console.log(error);
+              dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
+              notification.error({
+                message: 'Login Failed',
+                description: error.response?.data?.message || 'Something went wrong.',
+              });
+            }
           }}
           onError={() => {
             console.log('Login Failed')
           }}
+        />
+        <TelegramLoginButton
+          botName="commerse_auth_bot"
+          dataOnauth={(user) => console.log(user)}
         />
       </div>
       <Text className='text-center'>Already have an account? <Link to="/auth">Login</Link></Text>

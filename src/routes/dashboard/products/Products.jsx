@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Nav = () => {
+const Products = () => {
   return (
     <div>
-      Nav
+      Products
     </div>
   )
 }
 
-export default Nav
+export default Products
