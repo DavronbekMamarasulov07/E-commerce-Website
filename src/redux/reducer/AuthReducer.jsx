@@ -1,7 +1,7 @@
 import { ERROR, LOADING, LOGIN_SUCCESS, REGISTER_SUCCESS } from "../actions/types"
 
 const InitialState = {
-    loading : false,
+    loading : localStorage.getItem("token") || null,
     user : null,
     token: null,
     error: null,

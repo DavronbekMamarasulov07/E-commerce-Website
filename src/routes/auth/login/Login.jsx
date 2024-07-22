@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../../api';
 import { saveToLocalStorage } from '../../../helpers';
 import { ERROR, LOADING, LOGIN_SUCCESS } from '../../../redux/actions/types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react'; 
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -13,7 +13,7 @@ const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isToken, setIsToken] = useState(false);
+  const authData = useSelector(state => state)
 
   const onFinish = async (values) => {
     try {
@@ -32,7 +32,6 @@ const Login = () => {
           navigate("/")
 
         }, 2000)
-        setIsToken(true)
 
       } else {
         throw new Error("Something went wrong");
@@ -51,6 +50,8 @@ const Login = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  console.log(authData)
 
   return (
     <Form
@@ -111,7 +112,7 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item className='text-center'>
-        <Button disabled={isToken} type="primary" htmlType="submit" className='w-[70%] margin-auto'>
+        <Button  type="primary" htmlType="submit" className='w-[70%] margin-auto'>
           Login
         </Button>
       </Form.Item>

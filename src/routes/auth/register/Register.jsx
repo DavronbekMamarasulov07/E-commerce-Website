@@ -2,7 +2,7 @@ import { Button, Checkbox, Divider, Form, Input, Typography, message, notificati
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../../api';
 import { saveToLocalStorage } from '../../../helpers';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ERROR, LOADING, REGISTER_SUCCESS } from '../../../redux/actions/types';
 import { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
@@ -16,7 +16,8 @@ const Register = () => {
   const dispatch = useDispatch()
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [isToken, setIsToken] = useState(false);
+  const authData = useSelector(state => state)
+  console.log(authData)
 
 
   const onFinish = async (values) => {
@@ -30,12 +31,10 @@ const Register = () => {
           description: 'You have successfully registered.',
         });
         dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
-        saveToLocalStorage('token', data.token);
         setTimeout(() => {
           navigate("/auth")
 
         }, 2000)
-        setIsToken(true)
       }
       else {
         throw new Error({ message: "Something went wrong" })
@@ -126,8 +125,8 @@ const Register = () => {
       <Form.Item
         className='text-center'
       >
-        <Button disabled={isToken} type="primary " htmlType="submit" className='w-[70%] margin-auto'>
-          Login
+        <Button loading={authData.loading} disabled={authData.loading} type="primary " htmlType="submit" className='w-[70%] margin-auto'>
+          Register
         </Button>
       </Form.Item>
       <Divider><Text>Or</Text></Divider>
