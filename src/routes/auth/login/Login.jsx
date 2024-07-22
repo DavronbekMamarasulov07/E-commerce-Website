@@ -1,10 +1,8 @@
 import { Button, Checkbox, Divider, Form, Input, Typography, notification } from 'antd';
-import { Link, json, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../../api';
-import { saveToLocalStorage } from '../../../helpers';
 import { ERROR, LOADING, LOGIN_SUCCESS } from '../../../redux/actions/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
 import TelegramLoginButton from 'telegram-login-button'
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -40,11 +38,14 @@ const Login = () => {
       console.log(error);
       dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
       notification.error({
+        duration: 2,
         message: 'Login Failed',
         description: error.response?.data?.message || 'Something went wrong.',
       });
     }
   };
+
+  
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -148,11 +149,14 @@ const Login = () => {
               console.log(error);
               dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
               notification.error({
+                duration: 2,
                 message: 'Login Failed',
                 description: error.response?.data?.message || 'Something went wrong.',
               });
             }
+           
           }}
+          
           onError={() => {
             console.log('Login Failed')
           }}

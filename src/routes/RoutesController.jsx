@@ -1,6 +1,7 @@
 import {lazy } from 'react'
-import { useRoutes } from 'react-router-dom'
+import { Navigate, useRoutes } from 'react-router-dom'
 import Suspense from '../utils/index.jsx'
+import { useSelector } from 'react-redux'
 const Login = lazy (() => import('./auth/login/Login.jsx'))
 const Register = lazy    (() => import('./auth/register/Register.jsx'))
 const Products = lazy (() => import('./dashboard/products/Products.jsx'))
@@ -13,6 +14,7 @@ const Protected = lazy (() => import('./protected/Protecdet.jsx'))
 
 
 const RoutesController = () => {
+    const authData = useSelector(state => state)
   return useRoutes([
     {
         path: "",
@@ -21,7 +23,7 @@ const RoutesController = () => {
     },
     {
         path: "auth",
-        element: <Suspense ><Auth/></Suspense>,
+        element: authData.token ? <Navigate to="/dashboard" /> : <Suspense ><Auth/></Suspense>,
         children: [
             {
                 path: "",

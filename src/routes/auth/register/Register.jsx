@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ERROR, LOADING, REGISTER_SUCCESS } from '../../../redux/actions/types';
 import { GoogleLogin } from '@react-oauth/google';
 import TelegramLoginButton from 'telegram-login-button'
+import { useEffect } from 'react';
 
 
 
@@ -43,8 +44,9 @@ const Register = () => {
       console.log(error);
       dispatch({ type: ERROR, message: error.res.data.message || error })
     }
-    console.log(data)
+    
   };
+ 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -147,8 +149,9 @@ const Register = () => {
                   description: 'You have successfully logged in.',
                 });
                 dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
-                // setTimeout(() => {
-                //   navigate("/")
+                setTimeout(() => {
+                  navigate("/dashboard")
+                }, 2000)
               }
               else {
                 throw new Error("Something went wrong");
@@ -161,7 +164,11 @@ const Register = () => {
                 description: error.response?.data?.message || 'Something went wrong.',
               });
             }
+            
+            
           }}
+
+          
           onError={() => {
             console.log('Login Failed')
           }}
