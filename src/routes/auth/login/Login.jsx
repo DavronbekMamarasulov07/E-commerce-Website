@@ -4,9 +4,8 @@ import axios from '../../../api';
 import { saveToLocalStorage } from '../../../helpers';
 import { ERROR, LOADING, LOGIN_SUCCESS } from '../../../redux/actions/types';
 import { useDispatch } from 'react-redux';
-import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
+import { useState } from 'react'; 
+import { GoogleLogin } from '@react-oauth/google';
 
 const { Title, Text } = Typography;
 
@@ -32,9 +31,9 @@ const Login = () => {
         setTimeout(() => {
           navigate("/")
 
-        },2000) 
+        }, 2000)
         setIsToken(true)
-        
+
       } else {
         throw new Error("Something went wrong");
       }
@@ -118,6 +117,17 @@ const Login = () => {
       </Form.Item>
 
       <Divider><Text>Or</Text></Divider>
+      <div className='flex items-center justify-center w-full mb-5'>
+
+        <GoogleLogin
+          onSuccess={credentialResponse => {
+            console.log(credentialResponse);
+          }}
+          onError={() => {
+            console.log('Login Failed')
+          }}
+        />
+      </div>
 
       <Text className='text-center'>Don't have an account? <Link to="/auth/register">Register</Link></Text>
     </Form>

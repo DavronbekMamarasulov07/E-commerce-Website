@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from '../../../api';
 import { saveToLocalStorage } from '../../../helpers';
 import { useDispatch } from 'react-redux';
-import { ERROR, LOADING, LOGIN_SUCCESS, REGISTER_SUCCESS } from '../../../redux/actions/types';
+import { ERROR, LOADING, REGISTER_SUCCESS } from '../../../redux/actions/types';
 import { useState } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 
 const { Title, Text } = Typography;
@@ -31,7 +33,7 @@ const Register = () => {
         saveToLocalStorage('token', data.token);
         setTimeout(() => {
           navigate("/auth")
-          
+
         }, 2000)
         setIsToken(true)
       }
@@ -39,7 +41,7 @@ const Register = () => {
         throw new Error({ message: "Something went wrong" })
       }
       form.resetFields();
-      
+
     } catch (error) {
       console.log(error);
       dispatch({ type: ERROR, message: error.res.data.message || error })
@@ -129,6 +131,16 @@ const Register = () => {
         </Button>
       </Form.Item>
       <Divider><Text>Or</Text></Divider>
+      <div className='flex items-center justify-center w-full mb-5'>
+        <GoogleLogin
+          onSuccess={credentialResponse => {
+            console.log(credentialResponse);
+          }}
+          onError={() => {
+            console.log('Login Failed')
+          }}
+        />
+      </div>
       <Text className='text-center'>Already have an account? <Link to="/auth">Login</Link></Text>
     </Form>
   )
