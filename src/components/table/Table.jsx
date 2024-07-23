@@ -117,7 +117,7 @@ const TableComponent = ({ title, data, loading }) => {
                 footer={null}
             >
 
-                <ProductForm />
+                <ProductForm  setIsModalOpen={setIsModalOpen}/>
             </Modal>
             <Modal
                 centered
@@ -145,7 +145,7 @@ const TableComponent = ({ title, data, loading }) => {
                 }}
                 footer={null}
             >
-                <ProductForm />
+                <ProductForm updateProduct={updateProduct} />
             </Modal>
         </>
     )

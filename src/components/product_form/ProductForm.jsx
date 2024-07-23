@@ -10,7 +10,7 @@ const { TextArea } = Input;
 
 
 
-const ProductForm = () => {
+const ProductForm = ({setIsModalOpen}) => {
     const authData = useSelector(state => state)
     const [categoryData] = useFetch("/product/category")
     const [productTypeData] = useFetch("/product/product-type")
