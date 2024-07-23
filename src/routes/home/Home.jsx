@@ -13,13 +13,13 @@ const navigate = useNavigate();
     api[type]({
       message: 'Bir necha soniyalarda sizni Auth sahifasiga olib utamiz',
       description:
-        'Saytimiz 1.0.0 versiyasida ishga tushdi,hozirda faqat Login va Register sahifalari  mavjud.',
+        'Saytimiz 1.0.0 versiyasida ishga tushdi,hozirda faqat Login,Register  va Dashboard sahifalari  mavjud.',
       duration: 7,
       
     });
     setTimeout(() => {
       navigate('/auth')
-    },8000)
+    },3000)
   };
   return (
     <div className='h-screen w-full flex items-center justify-center'>
