@@ -52,10 +52,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
 
     const handleSingOut = () => {
         setOpen(true);
-        notification.success({
-            message: 'Signed out successfully',
-            description: error.response?.data?.message || 'Will be signed out',
-        });
+        
     };
     return (
         <>
@@ -133,7 +130,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                     >
 
                         {!collapsed && (
-                            <span className="text-[12px]">Sign Out </span>
+                            <span className="text-[12px] whitespace-nowrap">Sign Out </span>
                         )}
                         <span><BsFillDoorOpenFill /></span>
                     </Button>
