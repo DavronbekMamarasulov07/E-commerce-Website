@@ -1,4 +1,4 @@
-import { Button, Modal ,Typography,Table, Space} from 'antd'
+import { Button, Modal ,Typography,Table, Space, notification} from 'antd'
 import ProductForm from '../../components/product_form/ProductForm';
 import { useEffect, useState } from 'react';
 import { AiFillEdit } from "react-icons/ai";
@@ -18,19 +18,7 @@ const TableComponent = ({ title, data, loading }) => {
     const [deleteProduct, setDeleteProduct] = useState(null);
 
 
-    const onFinishUpdate = async (values) => {
-        try {
-            const res = await axios.put(`/product/${updateProduct.id}`, values)
-            toast.success("Product Updated")
-            if(res.data){
-                location.reload()
-            }
-        } catch (error) {
-            console.log(error)
-
-        }
-        setUpdateProduct(null)
-    };
+    
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -43,9 +31,13 @@ const TableComponent = ({ title, data, loading }) => {
     const handleDeleteProduct = async () => {
         try {
             const res = await axios.delete(`/product/${deleteProduct._id}`);
-
-            console.log("Product Deleted", res.data);
-            location.reload()
+            notification.error({
+                message: 'Product Deleted',
+                description: 'Product has been deleted.',
+            });
+            setTimeout(() => {
+                location.reload()
+            }, 500);
         } catch (error) {
             console.log(error)
         }

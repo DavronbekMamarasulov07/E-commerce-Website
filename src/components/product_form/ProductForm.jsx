@@ -1,5 +1,5 @@
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { Button, Form, Input, InputNumber, Select } from 'antd';
+import { Button, Form, Input, InputNumber, Select, notification } from 'antd';
 import "./ProductsForm.css"
 import { useFetch } from "../../hooks/useFetch";
 import { useState } from "react";
@@ -18,7 +18,19 @@ const ProductForm = ({setIsModalOpen}) => {
     const [form] = Form.useForm();
 
 
+    // const onFinish = async (values) => {
+    //     try {
+    //         const res = await axios.put(`/product/${updateProduct.id}`, values)
+    //         toast.success("Product Updated")
+    //         if(res.data){
+    //             location.reload()
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
 
+    //     }
+    //     setUpdateProduct(null)
+    // };
 
 
     const onFinish = (values) => {
@@ -44,8 +56,14 @@ const ProductForm = ({setIsModalOpen}) => {
         })
             .then(res => {
                 if (res.ok) {
-                    setModalVisible(true); 
-                    form.resetFields(); 
+                    setIsModalOpen(true);
+                    notification.success({
+                        message: 'Product Created',
+                        description: 'Product has been created.',
+                    })
+                    setTimeout(() => {
+                        location.reload()
+                    }, 1000);
                 }
                 return res.json();
             })
