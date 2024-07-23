@@ -30,10 +30,8 @@ const Register = () => {
           description: 'You have successfully registered.',
         });
         dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
-        setTimeout(() => {
-          navigate("/auth")
-
-        }, 2000)
+        navigate("/auth")
+       
       }
       else {
         throw new Error({ message: "Something went wrong" })
@@ -145,13 +143,12 @@ const Register = () => {
               const data = res.data.payload;
               if (res.status === 200 && data.token) {
                 notification.success({
-                  message: 'Login Successful',
-                  description: 'You have successfully logged in.',
+                  message: 'Registration Successful',
+                  description: 'You have successfully registered in.',
                 });
                 dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
-                setTimeout(() => {
-                  navigate("/dashboard")
-                }, 2000)
+                navigate("/dashboard")
+                
               }
               else {
                 throw new Error("Something went wrong");
@@ -160,8 +157,8 @@ const Register = () => {
               console.log(error);
               dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
               notification.error({
-                message: 'Login Failed',
-                description: error.response?.data?.message || 'Something went wrong.',
+                message: 'Registration Failed',
+                description:  'Something went wrong.',
               });
             }
             
@@ -170,12 +167,47 @@ const Register = () => {
 
           
           onError={() => {
-            console.log('Login Failed')
+            console.log('Register Failed')
           }}
         />
-        <TelegramLoginButton
+         <TelegramLoginButton
           botName="commerse_auth_bot"
-          dataOnauth={(user) => console.log(user)}
+          dataOnauth={ async (user) => {
+            console.log(user)
+            const userTelegram = {
+              first_name: user?.first_name,
+              username: user?.username,
+              password: user?.id.toString()
+            }
+            console.log(userTelegram)
+            try {
+              dispatch({ type: LOADING });
+              const res = await axios.post("/auth", userTelegram);
+              const data = res.data.payload;
+              if (res.status === 200 && data.token) {
+                notification.success({
+                  message: 'Registration Successful',
+                  description: 'You have successfully registered in.',
+                });
+                dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
+                navigate("/dashboard")
+                
+        
+              } else {
+                throw new Error("Something went wrong");
+              }
+              form.resetFields();
+            } catch (error) {
+              console.log(error);
+              dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
+              notification.error({
+                duration: 2,
+                message: 'Registration Failed',
+                description: 'Something went wrong.',
+              });
+            }
+            
+          }}
         />
       </div>
       <Text className='text-center'>Already have an account? <Link to="/auth">Login</Link></Text>

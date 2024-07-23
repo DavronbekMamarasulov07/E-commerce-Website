@@ -40,7 +40,7 @@ const Login = () => {
       notification.error({
         duration: 2,
         message: 'Login Failed',
-        description: error.response?.data?.message || 'Something went wrong.',
+        description:  'Something went wrong.',
       });
     }
   };
@@ -163,7 +163,40 @@ const Login = () => {
         />
         <TelegramLoginButton
           botName="commerse_auth_bot"
-          dataOnauth={(user) => console.log(user)}
+          dataOnauth={ async (user) => {
+            console.log(user)
+            const userTelegram = {
+              username: user?.username,
+              password: user?.id.toString()
+            }
+            console.log(userTelegram)
+            try {
+              dispatch({ type: LOADING });
+              const res = await axios.post("/auth/login", userTelegram);
+              const data = res.data.payload;
+              if (res.status === 200 && data.token) {
+                notification.success({
+                  message: 'Login Successful',
+                  description: 'You have successfully logged in.',
+                });
+                dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
+                navigate("/dashboard")
+        
+              } else {
+                throw new Error("Something went wrong");
+              }
+              form.resetFields();
+            } catch (error) {
+              console.log(error);
+              dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
+              notification.error({
+                duration: 2,
+                message: 'Login Failed',
+                description: 'Something went wrong.',
+              });
+            }
+            
+          }}
         />
       </div>
 
