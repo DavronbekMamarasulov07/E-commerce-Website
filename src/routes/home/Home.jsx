@@ -1,12 +1,14 @@
 import React from 'react'
 import { Button, notification, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
 
 const navigate = useNavigate();
 
   const [api, contextHolder] = notification.useNotification();
+
 
   
   const openNotificationWithIcon = (type) => {
@@ -18,7 +20,7 @@ const navigate = useNavigate();
       
     });
     setTimeout(() => {
-      navigate('/auth')
+      navigate('/dashboard')
     },3000)
   };
   return (
