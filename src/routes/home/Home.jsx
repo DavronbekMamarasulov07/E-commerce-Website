@@ -24,7 +24,7 @@ const navigate = useNavigate();
     },3000)
   };
   return (
-    <div className='h-screen w-full flex items-center justify-center'>
+    <div className='h-screen w-full flex items-center justify-center w-full'>
        {contextHolder}
        <Button onClick={() => openNotificationWithIcon('info')}>Go</Button>
     </div>

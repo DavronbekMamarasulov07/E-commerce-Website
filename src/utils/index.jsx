@@ -1,6 +1,7 @@
 import {  Spin } from 'antd'
 import { Suspense } from 'react'
 
+
 export const Loading = () => {
     return (
         <div className='h-screen w-full flex items-center justify-center'>
@@ -16,6 +17,7 @@ const SuspenseElement = ({children}) => {
         </Suspense>
     )
 }
+
 
 
 

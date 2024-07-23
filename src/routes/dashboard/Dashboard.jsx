@@ -18,7 +18,8 @@ const Dashboard = () => {
         <Hearder collapsed={collapsed} setCollapsed={setCollapsed}/>
         <Content
         className='bg-white shadow rounded-xl my-6 mx-4 p-6 min-h-[280px]'
-        >
+          > 
+         
           <Outlet/>
         </Content>
       </Layout>

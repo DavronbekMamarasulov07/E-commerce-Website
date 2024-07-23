@@ -14,6 +14,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const authData = useSelector(state => state)
 
+
+
   const onFinish = async (values) => {
     try {
       dispatch({ type: LOADING });
@@ -25,10 +27,8 @@ const Login = () => {
           description: 'You have successfully logged in.',
         });
         dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
-        setTimeout(() => {
-          navigate("/dashboard")
-
-        }, 1000)
+        navigate("/dashboard")
+        
 
       } else {
         throw new Error("Something went wrong");
@@ -117,7 +117,9 @@ const Login = () => {
       </Form.Item>
 
       <Divider><Text>Or</Text></Divider>
-      <div className='flex items-center justify-center w-full mb-5 gap-2 flex-col m-auto max-w-[350px] overflow-hidden'>
+      <div className='flex items-center justify-center w-full mb-5 gap-2 flex-col lader '>
+
+        
 
       <GoogleLogin
           onSuccess={async credentialResponse => {
@@ -136,10 +138,8 @@ const Login = () => {
                   description: 'You have successfully logged in.',
                 });
                 dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
-                setTimeout(() => {
-                  navigate("/dashboard")
-        
-                }, 1000)
+                navigate("/dashboard")
+                
         
               } else {
                 throw new Error("Something went wrong");
