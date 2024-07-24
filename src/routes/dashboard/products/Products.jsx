@@ -72,6 +72,8 @@ const Products = () => {
       dataIndex: 'product_name',
       sorter: true,
       render: (name) => name,
+      with: '30%',
+
     },
     {
       key: "Category",
@@ -79,6 +81,8 @@ const Products = () => {
       dataIndex: 'category',
       sorter: true,
       render: (category) => category,
+      with: '30%',
+
 
     },
     {
@@ -86,6 +90,8 @@ const Products = () => {
       title: 'Product Type',
       dataIndex: 'product_type',
       sorter: true,
+      with: '30%',
+
 
     },
     {
@@ -93,6 +99,8 @@ const Products = () => {
       title: 'Price',
       dataIndex: 'original_price',
       sorter: true,
+      with: '30%',
+
 
     },
     {
@@ -100,6 +108,8 @@ const Products = () => {
       title: 'Price',
       dataIndex: 'sale_price',
       sorter: true,
+      with: '30%',
+
 
     },
     {
@@ -107,23 +117,27 @@ const Products = () => {
       title: 'Quantity',
       dataIndex: 'number_in_stock',
       sorter: true,
+      with: '30%',
+
 
     },
     {
       key: "Image",
       title: "image",
       dataIndex: "product_images",
-      render: (images) => <img src={images[0]} className='w-12 h-12 object-contain border-2' alt="image" />
+      render: (images) => <img src={images[0]} className='w-12 h-12 object-contain border-2' alt="image" />,
+      with: '30%',
     },
     {
       key: "Action",
       title: 'Action',
       render: (_, record) => (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ">
           <Button type="primary" onClick={() => handleUpdateProduct(record)}>Edit</Button>
           <Button danger type="primary" onClick={() => setDeleteProduct(record)}>Delete</Button>
         </div>
       ),
+      with: '5%',
     }
 
 
