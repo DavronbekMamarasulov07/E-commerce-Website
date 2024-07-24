@@ -80,7 +80,7 @@ const TableComponent = ({ title, data, loading }) => {
             <Table
                 columns={columns}
                 dataSource={data?.payload?.map(item => ({
-                    ...item, key: item.id, actions: <div style={{ display: "flex", gap: 10 }}>
+                    ...item, key: item._id, actions: <div style={{ display: "flex", gap: 10 }}>
                         {
                             title === "Product" ?
                                 <Button type="primary" danger onClick={() => setDeleteProduct(item)}><BsFillTrashFill /></Button>
@@ -109,7 +109,7 @@ const TableComponent = ({ title, data, loading }) => {
                 footer={null}
             >
 
-                <ProductForm  setIsModalOpen={setIsModalOpen}/>
+                <ProductForm  setIsModalOpen={setIsModalOpen} />
             </Modal>
             <Modal
                 centered
@@ -137,7 +137,7 @@ const TableComponent = ({ title, data, loading }) => {
                 }}
                 footer={null}
             >
-                <ProductForm updateProduct={updateProduct} />
+                <ProductForm setIsModalOpen={setIsModalOpen} updateProduct={updateProduct} setUpdateProduct={setUpdateProduct} />
             </Modal>
         </>
     )

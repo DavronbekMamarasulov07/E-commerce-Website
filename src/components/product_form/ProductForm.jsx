@@ -10,7 +10,7 @@ const { TextArea } = Input;
 
 
 
-const ProductForm = ({setIsModalOpen}) => {
+const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
     const authData = useSelector(state => state)
     const [categoryData] = useFetch("/product/category")
     const [productTypeData] = useFetch("/product/product-type")
@@ -18,59 +18,57 @@ const ProductForm = ({setIsModalOpen}) => {
     const [form] = Form.useForm();
 
 
-    // const onFinish = async (values) => {
-    //     try {
-    //         const res = await axios.put(`/product/${updateProduct.id}`, values)
-    //         toast.success("Product Updated")
-    //         if(res.data){
-    //             location.reload()
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
+    const onFinish = async (values) => {
+        console.log(updateProduct)
+        const url = updateProduct ? `/product/update/${updateProduct._id}` : "/product/create";
+        const method = updateProduct ? "PUT" : "POST";
 
-    //     }
-    //     setUpdateProduct(null)
-    // };
+        try {
+            const response = await fetch("http://localhost:8000" + url, {
+                method: method,
+                headers: {
+                    "Authorization": "Bearer " + authData.token
+                },
+                body: createFormData(values)
+            });
 
+            if (response.ok) {
+                const message = updateProduct ? 'Product Updated' : 'Product Created';
+                notification.success({
+                    message: message,
+                    description: 'Product has been ' + (updateProduct ? 'updated' : 'created') + '.',
+                });
+                setIsModalOpen(false);
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            }
+            console.log(response)
 
-    const onFinish = (values) => {
+            
+            
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const createFormData = (values) => {
         const form = new FormData();
-        form.append("product_name", values.product_name)
-        form.append("category", values.category[0])
-        form.append("product_type", values.product_type[0])
-        form.append("description", values.description)
-        form.append("original_price", values.original_price)
-        form.append("sale_price", values.sale_price)
-        form.append("number_in_stock", values.number_in_stock)
+        form.append("product_name", values.product_name);
+        form.append("category", values.category[0]);
+        form.append("product_type", values.product_type[0]);
+        form.append("description", values.description);
+        form.append("original_price", values.original_price);
+        form.append("sale_price", values.sale_price);
+        form.append("number_in_stock", values.number_in_stock);
 
         for (let i = 0; i < productImages.length; i++) {
-            form.append("product_images", productImages[i])
+            form.append("product_images", productImages[i]);
         }
 
-        fetch("http://localhost:8000/product/create", {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + authData.token
-            },
-            body: form
-        })
-            .then(res => {
-                if (res.ok) {
-                    setIsModalOpen(true);
-                    notification.success({
-                        message: 'Product Created',
-                        description: 'Product has been created.',
-                    })
-                    setTimeout(() => {
-                        location.reload()
-                    }, 1000);
-                }
-                return res.json();
-            })
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
-
+        return form;
     };
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -140,7 +138,7 @@ const ProductForm = ({setIsModalOpen}) => {
                     >
                         <Select
                             mode="tags"
-                            max Count={1}
+                            maxCount={1}
                             style={{
                                 width: '100%',
                             }}
