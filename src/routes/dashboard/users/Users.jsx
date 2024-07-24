@@ -1,19 +1,21 @@
-import React from 'react'
-import { Button,Typography } from 'antd'
-import TableComponent from '../../../components/table/Table'
-import { useFetch } from '../../../hooks/useFetch'
-
-const { Title } = Typography
+import TableComponent from "../../../components/table/Table";
+import { useFetch } from "../../../hooks/useFetch";
+import { DashboardTitle } from "../../../utils";
 
 const Users = () => {
 
-  const [data, loading] = useFetch("/auth/users")
-  console.log(data)
+  const [data, loading] = useFetch("/product/all")
+ 
+
   return (
     <div>
-      
       <>
-        <TableComponent  title={"User"} data={data} loading={loading}> </TableComponent>
+        <div className="flex justify-between items-center">
+          <DashboardTitle > Users</DashboardTitle>
+          
+        </div>
+        <TableComponent ></TableComponent>
+       
       </>
     </div>
   )

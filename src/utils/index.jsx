@@ -1,5 +1,7 @@
-import {  Spin } from 'antd'
+import {  Spin,Typography } from 'antd'
 import { Suspense } from 'react'
+
+const {Title} = Typography
 
 
 export const Loading = () => {
@@ -18,6 +20,13 @@ const SuspenseElement = ({children}) => {
     )
 }
 
+
+export const DashboardTitle = ({children}) => {
+
+    return (
+        <Title  level={2}>{children}</Title>
+    )
+}
 
 
 

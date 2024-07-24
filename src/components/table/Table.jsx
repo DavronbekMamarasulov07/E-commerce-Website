@@ -1,146 +1,125 @@
-import { Button, Modal ,Typography,Table, Space, notification} from 'antd'
-import ProductForm from '../../components/product_form/ProductForm';
-import { useEffect, useState } from 'react';
-import { AiFillEdit } from "react-icons/ai";
-import { BsFillTrashFill } from "react-icons/bs";
-import axios from '../../api'
-import "./Table.css"
+import React, { useEffect, useState } from 'react';
+import { Table } from 'antd';
+import axios from "../../api"
 
-const { Title } = Typography
-
-
-
-
-const TableComponent = ({ title, data, loading }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [columns, setColumns] = useState([])
-    const [updateProduct, setUpdateProduct] = useState(null);
-    const [deleteProduct, setDeleteProduct] = useState(null);
+const TableCom = () => {
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(false);
+    const [tableParams, setTableParams] = useState({
+        pagination: {
+            current: 1,
+            pageSize: 5,
+        },
+    });
 
 
-    
+    const columns = [
+        {
+            title: 'No.',
+            key: "id",
+            render: (text, record, index) =>  tableParams.pagination.pageSize * (tableParams.pagination.current - 1) + (index + 1),
+            width: '10%',
+        },
+        {
+            title: 'Name',
+            dataIndex: 'product_name',
+            sorter: true,
+            render: (name) => name,
+            width: '20%',
+        },
+        {
+            title: 'Category',
+            dataIndex: 'category',
+            sorter: true,
+            render: (category) => category,
+            width: '20%',
+        },
+        {
+            title: 'Product Type',
+            dataIndex: 'product_type',
+            sorter: true,
+            width: '20%',
+        },
+        {
+            title: 'Price',
+            dataIndex: 'original_price',
+            sorter: true,
+            width: '20%',
+        },
+        {
+            title: 'Price',
+            dataIndex: 'sale_price',
+            sorter: true,
+            width: '20%',
+        },
+        {
+            title: 'Quantity',
+            dataIndex: 'number_in_stock',
+            sorter: true,
+            width: '20%',
+        },
+        {
+            title: "image",
+            dataIndex: "product_images",
+            render: (images) => <img src={images[0]} className='w-12 h-12 object-contain border-2' alt="image" />
+        }
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
 
-    const handleDeleteProduct = async () => {
-        try {
-            const res = await axios.delete(`/product/${deleteProduct._id}`);
-            notification.error({
-                message: 'Product Deleted',
-                description: 'Product has been deleted.',
+    ];
+    const getRandomProductParams = (params) => ({
+        pageSize: params.pagination?.pageSize,
+        page: params.pagination?.current,
+        ...params,
+    });
+    const fetchData = () => {
+        setLoading(true);
+        axios("product/all",
+            {
+                params: getRandomProductParams(tableParams),
+            })
+            .then(res => {
+                setData(res.data?.payload);
+                setLoading(false);
+                setTableParams({
+                    ...tableParams,
+                    pagination: {
+                        ...tableParams.pagination,
+                        total: 200,
+                    },
+                });
             });
-            setTimeout(() => {
-                location.reload()
-            }, 500);
-        } catch (error) {
-            console.log(error)
-        }
-        setDeleteProduct(null)
-
     };
-
-    const handleUpdate = () => {
-        console.log(updateProduct);
-        setUpdateProduct(null)
-    };
-
-
-
     useEffect(() => {
-        if (data?.payload?.at(0)) {
-            const { __v, _id, isAdmin, description,product_images,likedby,likes, ...rest } = data?.payload?.at(0)
-            setColumns(Object.keys({ ...rest, actions: "Delete" }).map((key) => ({
-                title: key, dataIndex: key, key, width: key === "description" && 400, className: "td-item", render: (item) => {
-                    if (typeof item === "string" && item.startsWith("http")) {
-                        return <img width={50} data-td-item={key} src={item} />
-                    }
-                    else {
-                        return <span data-td-item={key}>{item}</span>
-                    }
-                }
-            })))
+        fetchData();
+    }, [
+        tableParams.pagination?.current,
+        tableParams.pagination?.pageSize,
+        tableParams?.sortOrder,
+        tableParams?.sortField,
+        JSON.stringify(tableParams.filters),
+    ]);
+    const handleTableChange = (pagination, filters, sorter) => {
+        setTableParams({
+            pagination,
+            filters,
+            sortOrder: Array.isArray(sorter) ? undefined : sorter.order,
+            sortField: Array.isArray(sorter) ? undefined : sorter.field,
+        });
+
+        if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+            setData([]);
         }
-
-    }, [data])
-
+    };
     return (
-        <>
-            <div>
-                <div className='flex items-center justify-between'>
-                    <Title level={2}> {title}s</Title>
-                    <Button onClick={showModal} type="primary">Add new {title}</Button>
-                </div>
-            </div>
-            <Table
-                columns={columns}
-                dataSource={data?.payload?.map(item => ({
-                    ...item, key: item._id, actions: <div style={{ display: "flex", gap: 10 }}>
-                        {
-                            title === "Product" ?
-                                <Button type="primary" danger onClick={() => setDeleteProduct(item)}><BsFillTrashFill /></Button>
-                                :
-                                <Button type="primary" danger onClick={() => setDeleteUser(item)}><BsFillTrashFill /></Button>
-
-                        }
-                        <Space />
-                        {
-                            title === "Product" && <Button type="primary" onClick={() => setUpdateProduct(item)}><AiFillEdit /></Button>
-                        }
-                    </div>
-                }))}
-                loading={loading}
-                scroll={{
-                    x: 1300,
-                    y: 550
-                }}
-            />
-            <Modal
-                centered
-                title={"Add new Product"}
-                open={isModalOpen}
-                maskClosable={false}
-                onCancel={handleCancel}
-                footer={null}
-            >
-
-                <ProductForm  setIsModalOpen={setIsModalOpen} />
-            </Modal>
-            <Modal
-                centered
-                maskClosable={false}
-                title={`Delete ${deleteProduct?.product_name}`}
-                open={Boolean(deleteProduct)}
-                onOk={handleDeleteProduct}
-                onCancel={() => setDeleteProduct(null)}
-                okButtonProps={{
-                    danger: true
-                }}
-            >
-                Are you really going to delete this product?
-            </Modal>
-            <Modal
-                centered
-                maskClosable={false}
-                className="update-product"
-                title={`Update ${updateProduct?.name}`}
-                open={Boolean(updateProduct)}
-                onOk={handleUpdate}
-                onCancel={() => setUpdateProduct(null)}
-                okButtonProps={{
-                    danger: true
-                }}
-                footer={null}
-            >
-                <ProductForm setIsModalOpen={setIsModalOpen} updateProduct={updateProduct} setUpdateProduct={setUpdateProduct} />
-            </Modal>
-        </>
-    )
-}
-
-export default TableComponent
+        <Table
+            columns={columns}
+            rowKey="_id"
+            dataSource={data}
+            pagination={tableParams.pagination}
+            loading={loading}
+            onChange={handleTableChange}
+        />
+    );
+};
+export default TableCom;

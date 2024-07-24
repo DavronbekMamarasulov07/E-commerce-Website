@@ -19,7 +19,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
 
 
     const onFinish = async (values) => {
-        console.log(updateProduct)
         const url = updateProduct ? `/product/update/${updateProduct._id}` : "/product/create";
         const method = updateProduct ? "PUT" : "POST";
 
