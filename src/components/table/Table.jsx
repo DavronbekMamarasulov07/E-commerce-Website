@@ -2,71 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import axios from "../../api"
 
-const TableCom = () => {
+const TableComponent = ({columns, tableParams, setTableParams,url}) => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
-    const [tableParams, setTableParams] = useState({
-        pagination: {
-            current: 1,
-            pageSize: 5,
-        },
-    });
+   
 
 
-    const columns = [
-        {
-            title: 'No.',
-            key: "id",
-            render: (text, record, index) =>  tableParams.pagination.pageSize * (tableParams.pagination.current - 1) + (index + 1),
-            width: '10%',
-        },
-        {
-            title: 'Name',
-            dataIndex: 'product_name',
-            sorter: true,
-            render: (name) => name,
-            width: '20%',
-        },
-        {
-            title: 'Category',
-            dataIndex: 'category',
-            sorter: true,
-            render: (category) => category,
-            width: '20%',
-        },
-        {
-            title: 'Product Type',
-            dataIndex: 'product_type',
-            sorter: true,
-            width: '20%',
-        },
-        {
-            title: 'Price',
-            dataIndex: 'original_price',
-            sorter: true,
-            width: '20%',
-        },
-        {
-            title: 'Price',
-            dataIndex: 'sale_price',
-            sorter: true,
-            width: '20%',
-        },
-        {
-            title: 'Quantity',
-            dataIndex: 'number_in_stock',
-            sorter: true,
-            width: '20%',
-        },
-        {
-            title: "image",
-            dataIndex: "product_images",
-            render: (images) => <img src={images[0]} className='w-12 h-12 object-contain border-2' alt="image" />
-        }
-
-
-
-    ];
+   
     const getRandomProductParams = (params) => ({
         pageSize: params.pagination?.pageSize,
         page: params.pagination?.current,
@@ -74,7 +16,7 @@ const TableCom = () => {
     });
     const fetchData = () => {
         setLoading(true);
-        axios("product/all",
+        axios(url,
             {
                 params: getRandomProductParams(tableParams),
             })
@@ -122,4 +64,4 @@ const TableCom = () => {
         />
     );
 };
-export default TableCom;
+export default TableComponent;
