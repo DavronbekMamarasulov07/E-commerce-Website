@@ -40,7 +40,13 @@ const Home = () => {
           }
         </div>
         <div className='flex justify-center'>
-          <Button size="large" className='mt-8 w-[200px] rounded-2xl' type="primary" onClick={() => setStep(step + 1)}>Show More</Button>
+          {
+            payload && payload.length > count * step
+              ?
+              <Button onClick={() => setStep(step + 1)} type="primary">Show More</Button>
+              :
+              <Button onClick={() => setStep(step - (count - 2 ))} type="primary">Show Less</Button>
+          }
         </div>
       </div>
     </Container>

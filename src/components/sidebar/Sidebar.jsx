@@ -141,7 +141,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                 {
                                     key: "1",
                                     icon: <AiFillHeart />,
-                                    label: <NavLink to="/dashboard/liked-products">Liked Products</NavLink>,
+                                    label: <NavLink end to="/dashboard/liked-products">Liked Products</NavLink>,
                                 },
                                 {
                                     key: "2",

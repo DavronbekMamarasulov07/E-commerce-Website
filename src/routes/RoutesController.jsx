@@ -55,7 +55,9 @@ const RoutesController = () => {
         children: [
             {
                 path: "",
-                element: <Suspense ><Dashboard/></Suspense>,
+                element: <Suspense >
+                    
+                    <Dashboard/></Suspense>,
                 children: [
                     {
                         index: true,

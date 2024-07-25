@@ -4,7 +4,7 @@ const { Header } = Layout;import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 }from '@ant-design/icons';
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const HearderComponent = ({ collapsed, setCollapsed }) => {
 
@@ -27,7 +27,7 @@ const HearderComponent = ({ collapsed, setCollapsed }) => {
           height: 64,
         }}
       />
-      <Button  danger type="primary"><Link to="/">Home 🏠</Link></Button>
+      <Button onClick={() => navigate("/")} danger type="primary" >Home 🏠</Button>
       </div>
     </Header>
   );
