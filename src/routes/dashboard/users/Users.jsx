@@ -109,7 +109,7 @@ const Users = () => {
       <Modal
         maskClosable={false}
         title="Promote User"
-        visible={isModalOpen}
+        open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
