@@ -24,7 +24,6 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState("You will be signed out");
 
-
     const handleOk = () => {
         setModalText("Signed out successfully");
 
@@ -36,8 +35,8 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
             navigate("/auth");
 
             notification.success({
-                message: 'Signed out successfully',
-                description: 'You have been signed out successfully.',
+                message: "Signed out successfully",
+                description: "You have been signed out successfully.",
             });
         }, 1500);
     };
@@ -52,7 +51,6 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
 
     const handleSingOut = () => {
         setOpen(true);
-        
     };
     return (
         <>
@@ -62,45 +60,58 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                 collapsed={collapsed}
                 className="pt-1 pb-7 px-2 "
             >
-                <div className="flex items-center gap-5 p-3  ">
-                    <Badge size="large" count={3}>
-                        {loading ? (
-                            <Skeleton.Avatar active size={40} />
-                        ) : (
-                            <Avatar
-                                src={userProfileData?.avatar}
-                                className="bg-green-900"
-                                size={40}
-                            >
-                                {userProfileData?.first_name[0]}
-                            </Avatar>
-                        )}
-                    </Badge>
-                    <Text className="text-white  flex flex-col mt-1 gap-1 whitespace-nowrap overflow-hidden">
-                        {loading ? (
-                            <Skeleton.Input
-                                className=" max-w-[100px] leading-normal h-6 bg-blue-900"
-                                active
-                                size="small"
-                            />
-                        ) : (
-                            <span className="text-[16px] font-bold">
-                                {userProfileData?.first_name}
-                            </span>
-                        )}
-                        {loading ? (
-                            <Skeleton.Input
-                                className=" max-w-[60px] h-3 bg-blue-900"
-                                active
-                                size="small"
-                            />
-                        ) : (
-                            <span className="text-[12px] font-bold">
-                                {userProfileData?.role}
-                            </span>
-                        )}
-                    </Text>
-                </div>
+                <NavLink to="/dashboard/profile">
+                    <div className="flex items-center gap-5 p-3  ">
+                        <Badge size="large" count={7}>
+                            {loading ? (
+                                <Skeleton.Avatar active size={50} />
+                            ) : (
+
+                                userProfileData
+                                    ?
+
+                                    <img src={userProfileData?.photo_url} alt="photo_url" className="w-[60px] h-[50px] rounded-full" />
+                                    :
+                                    <Avatar
+                                        src={userProfileData?.avatar}
+                                        className="bg-green-900"
+                                        size={40}
+
+                                    >
+                                        {userProfileData?.first_name[0]}
+                                    </Avatar>
+
+
+
+
+                            )}
+                        </Badge>
+                        <Text className="text-white  flex flex-col mt-1 gap-1 whitespace-nowrap overflow-hidden">
+                            {loading ? (
+                                <Skeleton.Input
+                                    className=" max-w-[100px] leading-normal h-6 bg-blue-900"
+                                    active
+                                    size="small"
+                                />
+                            ) : (
+                                <span className="text-[16px] font-bold">
+                                    {userProfileData?.first_name}
+                                </span>
+                            )}
+                            {loading ? (
+                                <Skeleton.Input
+                                    className=" max-w-[60px] h-3 bg-blue-900"
+                                    active
+                                    size="small"
+                                />
+                            ) : (
+                                <span className="text-[12px] font-bold">
+                                    {userProfileData?.role}
+                                </span>
+                            )}
+                        </Text>
+                    </div>
+                </NavLink>
                 <div className="flex flex-col justify-between flex-1 h-auto">
                     <Menu
                         theme="dark"
@@ -128,11 +139,12 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                         type="primary"
                         onClick={handleSingOut}
                     >
-
                         {!collapsed && (
                             <span className="text-[12px] whitespace-nowrap">Sign Out </span>
                         )}
-                        <span><BsFillDoorOpenFill /></span>
+                        <span>
+                            <BsFillDoorOpenFill />
+                        </span>
                     </Button>
                 </div>
             </Sider>

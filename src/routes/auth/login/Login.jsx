@@ -28,7 +28,7 @@ const Login = () => {
         });
         dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
         navigate("/dashboard")
-        
+
 
       } else {
         throw new Error("Something went wrong");
@@ -40,12 +40,12 @@ const Login = () => {
       notification.error({
         duration: 2,
         message: 'Login Failed',
-        description:  'Something went wrong.',
+        description: 'Something went wrong.',
       });
     }
   };
 
-  
+
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -88,6 +88,7 @@ const Login = () => {
       >
         <Input />
       </Form.Item>
+      
 
       <Form.Item
         className='mb-4'
@@ -119,9 +120,9 @@ const Login = () => {
       <Divider><Text>Or</Text></Divider>
       <div className='flex items-center justify-center w-full mb-5 gap-2 flex-col lader '>
 
-        
 
-      <GoogleLogin
+
+        <GoogleLogin
           onSuccess={async credentialResponse => {
             const decodedData = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
             const user = {
@@ -139,8 +140,8 @@ const Login = () => {
                 });
                 dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
                 navigate("/dashboard")
-                
-        
+
+
               } else {
                 throw new Error("Something went wrong");
               }
@@ -154,16 +155,16 @@ const Login = () => {
                 description: error.response?.data?.message || 'Something went wrong.',
               });
             }
-           
+
           }}
-          
+
           onError={() => {
             console.log('Login Failed')
           }}
         />
         <TelegramLoginButton
           botName="commerse_auth_bot"
-          dataOnauth={ async (user) => {
+          dataOnauth={async (user) => {
             console.log(user)
             const userTelegram = {
               username: user?.username,
@@ -181,7 +182,7 @@ const Login = () => {
                 });
                 dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
                 navigate("/dashboard")
-        
+
               } else {
                 throw new Error("Something went wrong");
               }
@@ -195,7 +196,7 @@ const Login = () => {
                 description: 'Something went wrong.',
               });
             }
-            
+
           }}
         />
       </div>

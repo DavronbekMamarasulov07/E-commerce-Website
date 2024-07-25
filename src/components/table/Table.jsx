@@ -27,7 +27,7 @@ const TableComponent = ({columns, tableParams, setTableParams,url}) => {
                     ...tableParams,
                     pagination: {
                         ...tableParams.pagination,
-                        total: 200,
+                        total: res.data?.total,
                     },
                 });
             });

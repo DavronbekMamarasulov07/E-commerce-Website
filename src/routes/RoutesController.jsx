@@ -6,11 +6,13 @@ const Login = lazy (() => import('./auth/login/Login.jsx'))
 const Register = lazy    (() => import('./auth/register/Register.jsx'))
 const Products = lazy (() => import('./dashboard/products/Products.jsx'))
 const Users = lazy (() => import('./dashboard/users/Users.jsx'))
+const Profile = lazy (() => import('./dashboard/profile/Profile.jsx'))
 
 const Home = lazy (() => import('./home/Home.jsx'))
 const Auth = lazy (() => import('./auth/Auth.jsx'))
 const Dashboard = lazy (() => import('./dashboard/Dashboard.jsx'))
 const Protected = lazy (() => import('./protected/Protecdet.jsx'))
+const NotFound = lazy (() => import('./not-found/NotFound.jsx'))
 
 
 const RoutesController = () => {
@@ -50,11 +52,27 @@ const RoutesController = () => {
                     {
                         path: "users",
                         element: <Suspense ><Users/></Suspense>,
+                    },
+                    {
+                        path: "profile",
+                        element: <Suspense ><Profile/></Suspense>,
                     }
+                    
+
                 ]
-            }
+            },
+            
         ]
     },
+    {
+
+        path: "*",
+        element: <Navigate to="not-found" />
+    },
+    {
+        path: "not-found",
+        element: <Suspense ><NotFound/></Suspense>,
+    }
     
   ])
 }

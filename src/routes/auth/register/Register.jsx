@@ -31,7 +31,7 @@ const Register = () => {
         });
         dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
         navigate("/auth")
-       
+
       }
       else {
         throw new Error({ message: "Something went wrong" })
@@ -42,9 +42,9 @@ const Register = () => {
       console.log(error);
       dispatch({ type: ERROR, message: error.res.data.message || error })
     }
-    
+
   };
- 
+
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -100,6 +100,16 @@ const Register = () => {
       </Form.Item>
 
       <Form.Item
+
+        name="photo_url"
+        label="Photo Url"
+        message="Please input Photo Url !"
+        rules={[{ required: true }, { type: 'url', warningOnly: true }, { type: 'string', min: 6 }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
         className='mb-4'
         defaultValue="Password"
         label="Password"
@@ -140,7 +150,7 @@ const Register = () => {
             try {
               dispatch({ type: LOADING })
               const res = axios.post("/auth", user);
-              const data = res.data.payload;
+              const data = res.data?.payload;
               if (res.status === 200 && data.token) {
                 notification.success({
                   message: 'Registration Successful',
@@ -148,7 +158,7 @@ const Register = () => {
                 });
                 dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
                 navigate("/dashboard")
-                
+
               }
               else {
                 throw new Error("Something went wrong");
@@ -158,21 +168,21 @@ const Register = () => {
               dispatch({ type: ERROR, message: error.response?.data?.message || error.message });
               notification.error({
                 message: 'Registration Failed',
-                description:  'Something went wrong.',
+                description: 'Something went wrong.',
               });
             }
-            
-            
+
+
           }}
 
-          
+
           onError={() => {
             console.log('Register Failed')
           }}
         />
-         <TelegramLoginButton
+        <TelegramLoginButton
           botName="commerse_auth_bot"
-          dataOnauth={ async (user) => {
+          dataOnauth={async (user) => {
             console.log(user)
             const userTelegram = {
               first_name: user?.first_name,
@@ -191,8 +201,8 @@ const Register = () => {
                 });
                 dispatch({ type: REGISTER_SUCCESS, user: data.user, token: data.token });
                 navigate("/dashboard")
-                
-        
+
+
               } else {
                 throw new Error("Something went wrong");
               }
@@ -206,7 +216,7 @@ const Register = () => {
                 description: 'Something went wrong.',
               });
             }
-            
+
           }}
         />
       </div>
