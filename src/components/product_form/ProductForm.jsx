@@ -2,7 +2,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { Button, Form, Input, InputNumber, Select, notification } from 'antd';
 import "./ProductsForm.css"
 import { useFetch } from "../../hooks/useFetch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const { TextArea } = Input;
@@ -71,6 +71,17 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
+
+    useEffect(() => {
+        form.setFieldsValue({
+            ...updateProduct
+        });
+        if (updateProduct === null) {
+            form.resetFields();
+        }
+    }, [updateProduct]);
+
+
     return (
         <div>
             <Form
@@ -86,15 +97,12 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                     marginTop: 12,
                     maxWidth: 500,
                 }}
-                initialValues={{
-                    remember: true,
-                }}
+                initialValues={updateProduct}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 <Form.Item
-                    initialValue={updateProduct?.product_name}
                     label="Product Name"
                     name="product_name"
                     rules={[
@@ -109,7 +117,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                 <div className="num_group grid grid-cols-2 items-center gap-3">
 
                     <Form.Item
-                        initialValue={updateProduct?.category}
                         label="Category"
                         name="category"
                         rules={[
@@ -129,7 +136,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                         />
                     </Form.Item>
                     <Form.Item
-                        initialValue={updateProduct?.product_type}
                         label="Product Type"
                         name="product_type"
                         rules={[
@@ -153,7 +159,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                 <div className='num_group grid grid-cols-3 gap-3'>
 
                     <Form.Item
-                        initialValue={updateProduct?.original_price}
                         label="Original Price"
                         name="original_price"
                         rules={[
@@ -166,7 +171,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                         <InputNumber min={1} className='w-full' />
                     </Form.Item>
                     <Form.Item
-                        initialValue={updateProduct?.sale_price}
                         label="Sale Price"
                         name="sale_price"
                         rules={[
@@ -179,7 +183,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                         <InputNumber min={1} className='w-full' />
                     </Form.Item>
                     <Form.Item
-                        initialValue={updateProduct?.number_in_stock}
                         label="Stock"
                         name="number_in_stock"
                         rules={[
@@ -193,7 +196,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                     </Form.Item>
                 </div>
                 <Form.Item
-                    initialValue={updateProduct?.description}
                     label="Description"
                     name="description"
                     rules={[

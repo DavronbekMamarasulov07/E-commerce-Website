@@ -4,8 +4,11 @@ const { Header } = Layout;import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 }from '@ant-design/icons';
+import { Link, useNavigate } from "react-router-dom";
 
 const HearderComponent = ({ collapsed, setCollapsed }) => {
+
+  const navigate = useNavigate();
   return (
     <Header
       style={{
@@ -13,6 +16,7 @@ const HearderComponent = ({ collapsed, setCollapsed }) => {
         background: "#fff",
       }}
     >
+      <div className="flex justify-between items-center pr-12">
       <Button
         type="text"
         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -23,6 +27,8 @@ const HearderComponent = ({ collapsed, setCollapsed }) => {
           height: 64,
         }}
       />
+      <Button  danger type="primary"><Link to="/">Home 🏠</Link></Button>
+      </div>
     </Header>
   );
 };

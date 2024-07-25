@@ -1,7 +1,9 @@
-import {lazy } from 'react'
+import {lazy, useEffect, useState } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import Suspense from '../utils/index.jsx'
 import { useSelector } from 'react-redux'
+import LikedProducts from './dashboard/liked_products/LikedProducts.jsx'
+import UnlikedProducts from './dashboard/unliked_products/UnlikedProducts.jsx'
 const Login = lazy (() => import('./auth/login/Login.jsx'))
 const Register = lazy    (() => import('./auth/register/Register.jsx'))
 const Products = lazy (() => import('./dashboard/products/Products.jsx'))
@@ -17,6 +19,16 @@ const NotFound = lazy (() => import('./not-found/NotFound.jsx'))
 
 const RoutesController = () => {
     const authData = useSelector(state => state)
+    const [role , setRole] = useState(null)
+
+
+    useEffect(() => {
+        if(authData && authData.token){
+            setRole(JSON.parse(atob(authData?.token?.split('.')[1])).user.role)
+        }
+    },[authData])
+
+
   return useRoutes([
     {
         path: "",
@@ -46,16 +58,25 @@ const RoutesController = () => {
                 element: <Suspense ><Dashboard/></Suspense>,
                 children: [
                     {
+                        index: true,
                         path: "",
-                        element: <Suspense ><Products/></Suspense>,
+                        element:role && role === "admin" && <Suspense ><Products/></Suspense>,
                     },
                     {
                         path: "users",
-                        element: <Suspense ><Users/></Suspense>,
+                        element: role && role === "admin" && <Suspense ><Users/></Suspense>,
                     },
                     {
                         path: "profile",
                         element: <Suspense><Profile/></Suspense>,
+                    },
+                    {
+                        path: "liked-products",
+                        element: <Suspense ><LikedProducts/></Suspense>,
+                    },
+                    {
+                        path: "unliked-products",
+                        element: <Suspense ><UnlikedProducts/></Suspense>,
                     }
                 ]
             },

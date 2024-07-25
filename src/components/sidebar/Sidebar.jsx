@@ -18,27 +18,30 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SIGN_OUT } from "../../redux/actions/types";
 import "./Sidebar.css";
+import { AiFillHeart } from "react-icons/ai";
+import { FaHeartBroken } from "react-icons/fa";
 
 const Sidebar = ({ collapsed, userProfileData, loading }) => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState("You will be signed out");
 
+    const role = userProfileData?.role
+
     const handleOk = () => {
         setModalText("Signed out successfully");
 
         setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-            dispatch({ type: SIGN_OUT });
-            navigate("/auth");
+        setOpen(false);
+        setConfirmLoading(false);
+        dispatch({ type: SIGN_OUT });
+        navigate("/auth");
 
-            notification.success({
-                message: "Signed out successfully",
-                description: "You have been signed out successfully.",
-            });
-        }, 1500);
+        notification.success({
+            message: "Signed out successfully",
+            description: "You have been signed out successfully.",
+        });
+
     };
 
     const handleCancel = () => {
@@ -60,9 +63,9 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                 collapsed={collapsed}
                 className="pt-1 pb-7 px-2 "
             >
-                <NavLink to="/dashboard/profile">
+                <NavLink to="/dashboard/profile" className="mb-6">
                     <div className="flex items-center gap-5 p-3  ">
-                        <Badge size="large" count={7}>
+                        <Badge className="h-10 w-10" count={7}>
                             {loading ? (
                                 <Skeleton.Avatar active size={50} />
                             ) : (
@@ -70,19 +73,9 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                 userProfileData?.photo_url
                                     ?
 
-                                    <img src={userProfileData?.photo_url} alt="photo_url" className="w-[60px] h-[50px] rounded-full" />
+                                    <Avatar size={50} src={userProfileData?.photo_url} className="rounded-full object-contain" />
                                     :
-                                    <Avatar
-                                        src={userProfileData?.avatar}
-                                        className="bg-green-900"
-                                        size={40}
-
-                                    >
-                                        {userProfileData?.first_name[0]}
-                                    </Avatar>
-
-
-
+                                    <Avatar size={50} src="https://api-private.atlassian.com/users/9d089fc206ccd5f801b32118098c691f/avatar" />
 
                             )}
                         </Badge>
@@ -117,7 +110,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                         selectable={false}
                         theme="dark"
                         mode="inline"
-                        items={[
+                        items={role === "admin" ? [
                             {
                                 key: "1",
                                 icon: <ProductOutlined />,
@@ -132,7 +125,32 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                 icon: <UserOutlined />,
                                 label: <NavLink to="/dashboard/users">Users</NavLink>,
                             },
-                        ]}
+                            {
+                                key: "3",
+                                icon: <AiFillHeart />,
+                                label: <NavLink to="/dashboard/liked-products">Liked Products</NavLink>,
+                            },
+                            {
+                                key: "4",
+                                icon: <FaHeartBroken />,
+                                label: <NavLink to="/dashboard/unliked-products">Unliked Products</NavLink>,
+                            },
+
+                        ] :
+                            [
+                                {
+                                    key: "1",
+                                    icon: <AiFillHeart />,
+                                    label: <NavLink to="/dashboard/liked-products">Liked Products</NavLink>,
+                                },
+                                {
+                                    key: "2",
+                                    icon: <FaHeartBroken />,
+                                    label: <NavLink to="/dashboard/unliked-products">Unliked Products</NavLink>,
+                                },
+                            ]
+
+                        }
                     />
                     <Button
                         className="mt-auto mx-2 whitespace-normal"

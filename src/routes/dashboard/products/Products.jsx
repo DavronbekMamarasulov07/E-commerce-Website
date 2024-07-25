@@ -33,7 +33,6 @@ const Products = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
     setUpdateProduct(null)
-    location.reload()
 
   };
 
@@ -149,7 +148,7 @@ const Products = () => {
 
     <>
       <div className="flex justify-between items-center">
-        <DashboardTitle>Products</DashboardTitle>
+        <DashboardTitle>Products 📦</DashboardTitle>
         <Button type="primary" onClick={showModal}>
           Add Product
         </Button>
@@ -159,7 +158,7 @@ const Products = () => {
         centered
         maskClosable={false}
         footer={null}
-        title={<Title level={2}>Product</Title>}
+        title={updateProduct ? "Update Product" : "Add Product"}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}>

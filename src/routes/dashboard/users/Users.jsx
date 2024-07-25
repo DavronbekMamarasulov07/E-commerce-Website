@@ -98,7 +98,7 @@ const Users = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <DashboardTitle>Users</DashboardTitle>
+        <DashboardTitle>Users 👤</DashboardTitle>
       </div>
       <TableComponent
         columns={columns}

@@ -41,6 +41,9 @@ const TableComponent = ({columns, tableParams, setTableParams,url}) => {
         tableParams?.sortField,
         JSON.stringify(tableParams.filters),
     ]);
+
+   
+
     const handleTableChange = (pagination, filters, sorter) => {
         setTableParams({
             pagination,

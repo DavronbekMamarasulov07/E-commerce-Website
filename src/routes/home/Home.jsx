@@ -1,33 +1,49 @@
-import React from 'react'
-import { Button, notification, Space } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import { useFetch } from '../../hooks/useFetch'
+import Container from '../../components/container/Container'
+import { Button, Skeleton, Typography } from 'antd'
+import { Loading } from '../../utils'
+import AllProducsts from '../../components/all_products/AllProducsts'
+import { Link, Navigate } from 'react-router-dom'
 
+
+const { Title } = Typography
 const Home = () => {
+  const [{ payload }, loading] = useFetch("/product/all")
+  const [step, setStep] = useState(1)
 
-const navigate = useNavigate();
-
-  const [api, contextHolder] = notification.useNotification();
+  let count = 4
 
 
-  
-  const openNotificationWithIcon = (type) => {
-    api[type]({
-      message: 'Bir necha soniyalarda sizni dashborad  sahifasiga olib utamiz',
-      description:
-        'Saytimiz 1.0.0 versiyasida ishga tushdi,hozirda faqat Login,Register  va Dashboard sahifalari  mavjud.',
-      duration: 7,
-      
-    });
-    setTimeout(() => {
-      navigate('/dashboard')
-    },3000)
-  };
   return (
-    <div className='h-screen w-full flex items-center justify-center w-full'>
-       {contextHolder}
-       <Button onClick={() => openNotificationWithIcon('info')}>Go</Button>
-    </div>
+    <Container>
+      <div className='my-12 flex flex-col  gap-8'>
+        <div className='flex items-center justify-between'>
+        <Title level={2}  >All Products</Title>
+        <Button   type='primary' className='w-[150px] text-xl'><Link to="/auth">Login</Link></Button>
+        </div>
+        <div className='flex flex-wrap gap-12  mt-12 '>
+          {
+            loading
+              ?
+              Array.from({ length: 4 }).map((_, index) => (
+                <div className="flex flex-col gap-5 items-center" key={index}>
+                  <Skeleton.Image active style={{ width: "300px", height: "300px" }} />
+                  <Skeleton.Input active className="skeloton_input" style={{ width: "250px", height: "30px" }} />
+                  <Skeleton.Input active className="skeloton_input" style={{ width: "200px", height: "20px" }} />
+                  <Skeleton.Input active className="skeloton_input" style={{ width: "250px", height: "20px" }} />
+
+                </div>
+              ))
+              :
+              payload && payload.slice(0, count * step).map((product) => <AllProducsts key={product._id} allData={product} />)
+          }
+        </div>
+        <div className='flex justify-center'>
+          <Button size="large" className='mt-8 w-[200px] rounded-2xl' type="primary" onClick={() => setStep(step + 1)}>Show More</Button>
+        </div>
+      </div>
+    </Container>
   )
 }
 
