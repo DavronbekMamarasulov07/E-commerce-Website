@@ -13,7 +13,7 @@ const navigate = useNavigate();
   
   const openNotificationWithIcon = (type) => {
     api[type]({
-      message: 'Bir necha soniyalarda sizni Auth sahifasiga olib utamiz',
+      message: 'Bir necha soniyalarda sizni dashborad  sahifasiga olib utamiz',
       description:
         'Saytimiz 1.0.0 versiyasida ishga tushdi,hozirda faqat Login,Register  va Dashboard sahifalari  mavjud.',
       duration: 7,
