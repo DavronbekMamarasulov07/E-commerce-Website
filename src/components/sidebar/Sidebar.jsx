@@ -67,7 +67,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                 <Skeleton.Avatar active size={50} />
                             ) : (
 
-                                userProfileData
+                                userProfileData?.photo_url
                                     ?
 
                                     <img src={userProfileData?.photo_url} alt="photo_url" className="w-[60px] h-[50px] rounded-full" />
@@ -114,6 +114,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                 </NavLink>
                 <div className="flex flex-col justify-between flex-1 h-auto">
                     <Menu
+                        selectable={false}
                         theme="dark"
                         mode="inline"
                         items={[
