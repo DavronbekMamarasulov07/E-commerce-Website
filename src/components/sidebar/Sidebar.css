@@ -7,6 +7,10 @@
     color: #fff;
 }
 
+ .ant-menu-item:has(.active):hover{
+    background-color: #1677ff !important;
+}
+
 .ant-layout-sider-children{
     display: flex;
     flex-direction: column;

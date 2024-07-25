@@ -55,10 +55,8 @@ const RoutesController = () => {
                     },
                     {
                         path: "profile",
-                        element: <Suspense ><Profile/></Suspense>,
+                        element: <Suspense><Profile/></Suspense>,
                     }
-                    
-
                 ]
             },
             
