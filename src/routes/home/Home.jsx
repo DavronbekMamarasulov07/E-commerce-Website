@@ -17,12 +17,12 @@ const Home = () => {
 
   return (
     <Container>
-      <div className='my-12 flex flex-col  gap-8'>
+      <div className='my-12 grid   gap-8'>
         <div className='flex items-center justify-between'>
         <Title level={2}  >All Products</Title>
         <Button   type='primary' className='w-[150px] text-xl'><Link to="/auth">Login</Link></Button>
         </div>
-        <div className='flex flex-wrap gap-12  mt-12 '>
+        <div className='grid grid-cols-4 gap-6  mt-12 '>
           {
             loading
               ?
@@ -39,7 +39,7 @@ const Home = () => {
               payload && payload.slice(0, count * step).map((product) => <AllProducsts key={product._id} allData={product} />)
           }
         </div>
-        <div className='flex justify-center'>
+        <div className='flex justify-center '>
           {
             payload && payload.length > count * step
               ?

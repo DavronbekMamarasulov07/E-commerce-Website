@@ -41,7 +41,7 @@ const AllProducsts = ({ allData }) => {
   }
 
   return (
-    <div className='flex flex-col gap-4 mb-[30px]'>
+    <div className='product_card  gap-2 mb-[30px]  px-6 py-6 rounded-3xl'>
 
       <div className='cart_img_content relative flex items-center justify-center w-[300px]  h-[300px] bg-[#F0EEED] rounded-3xl overflow-hidden p-12 '>
         <div className='cart_hover  px-8  w-full h-full max-w-[300px]  gap-4 flex  justify-between'>

@@ -4,6 +4,7 @@ import { Avatar, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
+
 const ProfileData = ({ profileData, loading }) => {
   return (
     <div className="my-8">
@@ -44,13 +45,13 @@ const ProfileData = ({ profileData, loading }) => {
             <div className="flex items-center  gap-5">
               <strong className="text-xl ">Created At:</strong>
               <Title style={{ margin: 0, color: "dodgerblue" }} level={4}>
-                {profileData?.createdAt} {profileData?.last_name}
+                {new Date(profileData?.createdAt).toLocaleDateString('uz-UZ', { timeZone: 'Asia/Tashkent' })}
               </Title>
             </div>
             <div className="flex items-center  gap-5">
               <strong className="text-xl ">Updated At:</strong>
               <Title style={{ margin: 0, color: "dodgerblue" }} level={4}>
-                {profileData?.updatedAt} {profileData?.last_name}
+                {new Date(profileData?.updatedAt).toLocaleDateString('uz-UZ', { timeZone: 'Asia/Tashkent' })}
               </Title>
             </div>
           </div>

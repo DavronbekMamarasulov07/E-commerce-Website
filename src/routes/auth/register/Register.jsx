@@ -142,8 +142,10 @@ const Register = () => {
         <GoogleLogin
           onSuccess={async credentialResponse => {
             const decodedData = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
+            console.log(decodedData)
             const user = {
               first_name: decodedData.given_name,
+              photo_url: decodedData.picture,
               username: decodedData.email,
               password: decodedData.sub,
             }
@@ -187,6 +189,7 @@ const Register = () => {
             const userTelegram = {
               first_name: user?.first_name,
               username: user?.username,
+              photo_url: user?.photo_url,
               password: user?.id.toString()
             }
             console.log(userTelegram)
