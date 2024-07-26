@@ -20,7 +20,7 @@ const Home = () => {
       <div className='my-12 grid   gap-8'>
         <div className='flex items-center justify-between'>
         <Title level={2}  >All Products</Title>
-        <Button   type='primary' className='w-[150px] text-xl'><Link to="/auth">Login</Link></Button>
+        <Link to="/auth"><Button   type='primary' className='w-[150px] text-xl'>Login</Button></Link>
         </div>
         <div className='grid grid-cols-4 gap-6  mt-12 '>
           {
