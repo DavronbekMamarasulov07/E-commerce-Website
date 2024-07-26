@@ -151,7 +151,7 @@ const Register = () => {
             }
             try {
               dispatch({ type: LOADING })
-              const res = axios.post("/auth", user);
+              const res = await axios.post("/auth", user);
               const data = res.data?.payload;
               if (res.status === 200 && data.token) {
                 notification.success({
