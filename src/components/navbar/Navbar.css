@@ -1,0 +1,7 @@
+.search_input{
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    outline: none;
+}

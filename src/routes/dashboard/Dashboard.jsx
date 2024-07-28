@@ -2,7 +2,7 @@ import { Layout } from 'antd'
 import  { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../components/sidebar/Sidebar';
-import Hearder from '../../components/header/Hearder';
+import Hearder from '../../components/dsshboard_header/DashboardHearder';
 import {useFetch} from '../../hooks/useFetch'
 
 const { Content } = Layout
@@ -17,7 +17,7 @@ const Dashboard = () => {
       <Layout>
         <Hearder collapsed={collapsed} setCollapsed={setCollapsed}/>
         <Content
-        className='bg-white shadow rounded-xl my-6 mx-4 p-6 min-h-[280px]'
+        className='bg-white shadow rounded-xl my-6 mx-4 p-6 min-h-[280px] overflow-scroll'
           > 
          
           <Outlet/>

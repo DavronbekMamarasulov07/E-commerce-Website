@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux";
 import { SIGN_OUT } from "../../redux/actions/types";
 import "./Sidebar.css";
 import { AiFillHeart } from "react-icons/ai";
-import { FaHeartBroken } from "react-icons/fa";
 
 const Sidebar = ({ collapsed, userProfileData, loading }) => {
     const [open, setOpen] = useState(false);
@@ -129,12 +128,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                 key: "3",
                                 icon: <AiFillHeart />,
                                 label: <NavLink to="/dashboard/liked-products">Liked Products</NavLink>,
-                            },
-                            {
-                                key: "4",
-                                icon: <FaHeartBroken />,
-                                label: <NavLink to="/dashboard/unliked-products">Unliked Products</NavLink>,
-                            },
+                            }
 
                         ] :
                             [
@@ -142,11 +136,6 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                     key: "1",
                                     icon: <AiFillHeart />,
                                     label: <NavLink end to="/dashboard/liked-products">Liked Products</NavLink>,
-                                },
-                                {
-                                    key: "2",
-                                    icon: <FaHeartBroken />,
-                                    label: <NavLink to="/dashboard/unliked-products">Unliked Products</NavLink>,
                                 },
                             ]
 

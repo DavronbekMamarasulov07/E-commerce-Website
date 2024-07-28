@@ -24,7 +24,7 @@ const Users = () => {
 
     try {
       const res = await axios.post("admin/add-admin", {
-        username: userToPromote.username, // Replace with the correct field from your user object
+        username: userToPromote.username, 
       });
       
       notification.success({
@@ -33,7 +33,7 @@ const Users = () => {
       });
 
       setTimeout(() => {
-        location.reload(); // You might want to consider a more controlled way to update your table
+        location.reload();
       }, 200);
     } catch (error) {
       console.log(error);

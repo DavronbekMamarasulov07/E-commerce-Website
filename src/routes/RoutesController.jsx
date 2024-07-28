@@ -3,7 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom'
 import Suspense from '../utils/index.jsx'
 import { useSelector } from 'react-redux'
 import LikedProducts from './dashboard/liked_products/LikedProducts.jsx'
-import UnlikedProducts from './dashboard/unliked_products/UnlikedProducts.jsx'
+import ProductDetails from './product_details/ProductDetails.jsx'
 const Login = lazy (() => import('./auth/login/Login.jsx'))
 const Register = lazy    (() => import('./auth/register/Register.jsx'))
 const Products = lazy (() => import('./dashboard/products/Products.jsx'))
@@ -24,7 +24,7 @@ const RoutesController = () => {
 
     useEffect(() => {
         if(authData && authData.token){
-            setRole(JSON.parse(atob(authData?.token?.split('.')[1])).user.role)
+            setRole(JSON.parse(atob(authData?.token?.split('.')[1])).user?.role)
         }
     },[authData])
 
@@ -75,15 +75,15 @@ const RoutesController = () => {
                     {
                         path: "liked-products",
                         element: <Suspense ><LikedProducts/></Suspense>,
-                    },
-                    {
-                        path: "unliked-products",
-                        element: <Suspense ><UnlikedProducts/></Suspense>,
                     }
                 ]
             },
             
         ]
+    },
+    {
+        path:"product-details/:productId",
+        element: <Suspense ><ProductDetails/></Suspense>,
     },
     {
 
@@ -94,6 +94,7 @@ const RoutesController = () => {
         path: "not-found",
         element: <Suspense ><NotFound/></Suspense>,
     }
+    
     
   ])
 }

@@ -16,8 +16,10 @@ const ProfileData = ({ profileData, loading }) => {
             {profileData?.photo_url ? (
                <Image
 
-               className="rounded-full "
+               className="rounded-full object-cover"
                width={250}
+               height={250}
+               
 
                src={profileData?.photo_url}
              />
@@ -26,6 +28,7 @@ const ProfileData = ({ profileData, loading }) => {
 
                 className="rounded-full "
                 width={250}
+                height={250}
 
                 src="https://api-private.atlassian.com/users/9d089fc206ccd5f801b32118098c691f/avatar"
               />
@@ -53,7 +56,7 @@ const ProfileData = ({ profileData, loading }) => {
             <div className="flex items-center  gap-5">
               <strong className="text-xl ">Created At:</strong>
               <Title style={{ margin: 0, color: "dodgerblue" }} level={4}>
-                { }
+                {new Date(profileData?.createdAt).toLocaleDateString('uz-UZ', { timeZone: 'Asia/Tashkent' }) }
               </Title>
             </div>
             <div className="flex items-center  gap-5">

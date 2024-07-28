@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import axios from "../../api"
 
-const TableComponent = ({columns, tableParams, setTableParams,url}) => {
+const TableComponent = ({columns, tableParams, setTableParams, url}) => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
    

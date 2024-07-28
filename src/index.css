@@ -11,7 +11,7 @@
 }
 
 body{
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 a{
@@ -24,8 +24,8 @@ ul{
 
 .container{
     width: 100%;
-    max-width: 1500px;
+    max-width: 1250px;
     margin: 0 auto ;
     padding: 0 20px;
-    
+    box-sizing: content-box;
 }

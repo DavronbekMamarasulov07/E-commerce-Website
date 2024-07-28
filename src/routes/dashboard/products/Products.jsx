@@ -1,10 +1,9 @@
-import { Modal, Button, notification } from "antd";
+import { Modal, Button, notification, Image } from "antd";
 import TableComponent from "../../../components/table/Table";
 import { DashboardTitle } from "../../../utils";
 import { useState } from "react";
 import ProductForm from "../../../components/product_form/ProductForm";
 import axios from "../../../api"
-import Title from "antd/es/typography/Title";
 
 
 const Products = () => {
@@ -97,6 +96,7 @@ const Products = () => {
       key: "Oprice",
       title: 'Price',
       dataIndex: 'original_price',
+      render: (price) => `$${price}`,
       sorter: true,
       with: '30%',
 
@@ -105,7 +105,8 @@ const Products = () => {
     {
       key: "Sprice",
       title: 'Price',
-      dataIndex: 'sale_price',
+      dataIndex:`sale_price`,
+      render: (price) => `$${price}`,
       sorter: true,
       with: '30%',
 
@@ -122,9 +123,22 @@ const Products = () => {
     },
     {
       key: "Image",
-      title: "image",
+      title: "Product Images",
       dataIndex: "product_images",
-      render: (images) => <img src={images[0]} className='w-12 h-12 object-contain border-2' alt="image" />,
+      render: (images) => <Image.PreviewGroup preview={{
+      onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
+    }} > 
+
+      {
+        images?.map((image) => (
+          <Image
+            width={50}
+            src={image}
+          />
+        ))
+      }
+    
+    </Image.PreviewGroup>,
       with: '30%',
     },
     {
