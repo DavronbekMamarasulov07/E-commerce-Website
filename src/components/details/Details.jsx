@@ -21,17 +21,26 @@ const Details = ({ product }) => {
         if (count > 1) {
             setCount(count - 1);
         }
-        navigate('/')
+        else {
+            notification.warning({
+                message: 'Minimum quantity is 1',
+            });
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+        }
     };
 
     const handleIncrementCount = () => {
         if (count < product?.number_in_stock) {
             setCount(count + 1);
+
         } else {
             notification.warning({
                 message: 'Out of Stock',
                 description: `Only ${product?.number_in_stock} available`,
             });
+
         }
     };
 
@@ -83,7 +92,7 @@ const Details = ({ product }) => {
                     <div className="flex items-center justify-between mt-12 gap-5">
                         <div className="flex items-center gap-8 bg-[#F0F0F0] py-4 px-5 rounded-[62px]" >
                             <AiOutlineMinus className="cursor-pointer text-3xl font-bold" onClick={handleDecrementCount} />
-                            {count }
+                            <strong className="text-3xl">{count}</strong>
                             <AiOutlinePlus className="cursor-pointer text-3xl font-bold" onClick={handleIncrementCount} />
                         </div>
                         <div className="bg-[#000] text-white py-4 px-5 rounded-[62px] flex-1 text-center transition-transform hover:bg-[#1d1d1de9] active:scale-90">

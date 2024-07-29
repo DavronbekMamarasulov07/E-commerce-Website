@@ -9,7 +9,7 @@ import Navbar from "../../components/navbar/Navbar";
 
 const ProductDetails = () => {
   const { productId } = useParams();
-  const [{payload}, loading] = useFetch(`/product/${productId} `)
+  const [{payload}, loading] = useFetch(`/product/single-product/${productId} `)
 
 
 

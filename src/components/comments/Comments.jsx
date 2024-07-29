@@ -6,8 +6,8 @@ const Clothers = ({ item }) => {
 
     return (
         <div className="border p-7 rounded-[20px] bg-[#F0F0F0]" key={id}>
-            <div className="flex items-center gap-2">
-                {Array.from({ length: 5 }, (_, index) => (
+            <div className="flex items-center gap-2 mb-3">
+                {Array.from({ length: rating }, (_, index) => (
                     index < Math.round(rating) ? <AiFillStar key={index} className="text-yellow-500" /> : <AiOutlineStar key={index} className="text-yellow-500" />
                 ))}
             </div>

@@ -12,7 +12,7 @@ const items = [
     {
         label: (
             <a target="_blank" rel="noopener noreferrer" >
-                1st menu item
+               Clothers
             </a>
         ),
         key: '0',
@@ -20,7 +20,7 @@ const items = [
     {
         label: (
             <a target="_blank" rel="noopener noreferrer" >
-                2nd menu item
+                Electronics
             </a>
         ),
         key: '1',

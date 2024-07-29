@@ -76,6 +76,7 @@ const RoutesController = () => {
                         path: "liked-products",
                         element: <Suspense ><LikedProducts/></Suspense>,
                     }
+
                 ]
             },
             
