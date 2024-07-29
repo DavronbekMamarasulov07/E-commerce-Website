@@ -12,7 +12,7 @@ const LikedProducts = () => {
   console.log(payload)
   useEffect(() => {
     if (payload) {
-      const filteredProducts = payload.filter(product => product.likes > 1);
+      const filteredProducts = payload.filter(product => product.likes >= 1);
       setData(filteredProducts);
     }
   }, [payload]);
