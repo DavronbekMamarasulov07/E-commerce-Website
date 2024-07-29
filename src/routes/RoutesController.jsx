@@ -4,7 +4,8 @@ import Suspense from '../utils/index.jsx'
 import { useSelector } from 'react-redux'
 import LikedProducts from './dashboard/liked_products/LikedProducts.jsx'
 import ProductDetails from './product_details/ProductDetails.jsx'
-    const Login = lazy (() => import('./auth/login/Login.jsx'))
+
+const Login = lazy (() => import('./auth/login/Login.jsx'))
 const Register = lazy    (() => import('./auth/register/Register.jsx'))
 const Products = lazy (() => import('./dashboard/products/Products.jsx'))
 const Users = lazy (() => import('./dashboard/users/Users.jsx'))
@@ -37,7 +38,7 @@ const RoutesController = () => {
     },
     {
         path: "auth",
-        element: authData.token ? <Navigate to="/dashboard" /> : <Suspense ><Auth/></Suspense>,
+        element: authData.token ? <Navigate to={`/dashboard`} /> : <Suspense ><Auth/></Suspense>,
         children: [
             {
                 path: "",
@@ -56,8 +57,8 @@ const RoutesController = () => {
             {
                 path: "",
                 element: <Suspense >
-                    
-                    <Dashboard/></Suspense>,
+                    <Dashboard/>
+                   </Suspense>,
                 children: [
                     {
                         index: true,
@@ -76,7 +77,6 @@ const RoutesController = () => {
                         path: "liked-products",
                         element: <Suspense ><LikedProducts/></Suspense>,
                     }
-
                 ]
             },
             

@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
-import { DashboardTitle, Loading } from '../../../utils';
-import TableComponent from '../../../components/table/Table';
+import { DashboardTitle } from '../../../utils';
 import { Table, Image } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
 const LikedProducts = () => {
   const [{ payload }, loading] = useFetch("/product/most-popular");
   const [data, setData] = useState([]);
-  console.log(payload)
 
-  const [profileData,isLoading] = useFetch("/auth/profile")
+
+
+  const [profileData] = useFetch("/auth/profile")
   console.log(profileData.payload)
 
   const userRole = profileData?.payload?.role
 
   useEffect(() => {
       if(userRole === "admin"){
-        setData(payload)
+        const filteredData = payload?.filter((product) => product.likes >= 1 )
+        setData(filteredData)
       }
       else{
         setData(payload?.filter((product) => product.likedby.includes(profileData?.payload?.username)))

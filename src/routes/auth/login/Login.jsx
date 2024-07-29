@@ -9,8 +9,8 @@ import { GoogleLogin } from '@react-oauth/google';
 const { Title, Text } = Typography;
 
 const Login = () => {
-  const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const authData = useSelector(state => state)
 
@@ -27,7 +27,8 @@ const Login = () => {
           description: 'You have successfully logged in.',
         });
         dispatch({ type: LOGIN_SUCCESS, user: data.user, token: data.token });
-        navigate("/dashboard")
+
+        navigate("/dashboard");
 
 
       } else {

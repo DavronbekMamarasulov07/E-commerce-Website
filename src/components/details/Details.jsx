@@ -1,8 +1,8 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { MdArrowForwardIos } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { Carousel, notification } from "antd";
-import { useState } from "react";
+import { Carousel, Image, notification } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { Clothers } from "../comments/Comments";
 import { comment_clothers } from "../../db";
 import "./Details.css"
@@ -11,9 +11,11 @@ import "./Details.css"
 
 const Details = ({ product }) => {
     const [count, setCount] = useState(1);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
-
+    const carousel = useRef(null);
    
+
 
     const contentStyle = {
         height: '100%',
@@ -49,6 +51,10 @@ const Details = ({ product }) => {
         }
     };
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div >
             <div className="flex items-center gap-4">
@@ -69,16 +75,16 @@ const Details = ({ product }) => {
                 <div className="flex items-center gap-6">
                     <div className="flex flex-col gap-3 ">
                         {product?.product_images?.map((image, index) => (
-                            <div className="image_card  rounded-3xl w-[100px]  overflow-hidden bg-black " key={index}>
+                            <div onClick={() => carousel.current.goTo(index)} className={currentIndex === index ? "image_card_active" : "image_card"} key={index}>
                                 <img src={image} className="scale-75 " style={contentStyle} alt="image" />
                             </div>
                         ))}
                     </div>
                     <div className="rounded-3xl w-full max-w-[470px]">
-                        <Carousel arrows autoplay autoplaySpeed={3000} infinite={true} fade >
+                        <Carousel afterChange={(current) => setCurrentIndex(current)} ref={carousel} arrows autoplay autoplaySpeed={3000} infinite={true} fade >
                             {product?.product_images?.map((image, index) => (
                                 <div className="rounded-3xl overflow-hidden bg-black " key={index}>
-                                    <img src={image} className="scale-75 " style={contentStyle} alt="image" />
+                                    <Image src={image} className="scale-75 transition-transform hover:scale-90" xstyle={contentStyle} alt="image" />
                                 </div>
                             ))}
                         </Carousel>

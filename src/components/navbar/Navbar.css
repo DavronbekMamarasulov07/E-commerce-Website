@@ -5,3 +5,12 @@
     width: 100%;
     outline: none;
 }
+
+/* .search_input */
+
+.ant-select-selector{
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
