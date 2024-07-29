@@ -82,9 +82,9 @@ const Details = ({ product }) => {
                     </div>
                     <div className="flex items-center justify-between mt-12 gap-5">
                         <div className="flex items-center gap-8 bg-[#F0F0F0] py-4 px-5 rounded-[62px]" >
-                            <AiOutlineMinus onClick={handleDecrementCount} />
-                            {count}
-                            <AiOutlinePlus onClick={handleIncrementCount} />
+                            <AiOutlineMinus className="cursor-pointer text-3xl font-bold" onClick={handleDecrementCount} />
+                            {count }
+                            <AiOutlinePlus className="cursor-pointer text-3xl font-bold" onClick={handleIncrementCount} />
                         </div>
                         <div className="bg-[#000] text-white py-4 px-5 rounded-[62px] flex-1 text-center transition-transform hover:bg-[#1d1d1de9] active:scale-90">
                             Add to Cart
