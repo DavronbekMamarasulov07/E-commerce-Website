@@ -17,15 +17,18 @@ import { UserOutlined, ProductOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { SIGN_OUT } from "../../redux/actions/types";
-import "./Sidebar.css";
 import { AiFillHeart } from "react-icons/ai";
+import { useFetch } from "../../hooks/useFetch";
+import "./Sidebar.css";
 
 const Sidebar = ({ collapsed, userProfileData, loading }) => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState("You will be signed out");
-
     const role = userProfileData?.role
+
+    const [notificationData] = useFetch("/notifications/all")
+    const notificationCont = notificationData.payload?.length
 
     const handleOk = () => {
         setModalText("Signed out successfully");
@@ -64,7 +67,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
             >
                 <NavLink to="/dashboard/profile" className="mb-6">
                     <div className="flex items-center gap-5 p-3  ">
-                        <Badge className="h-10 w-10" count={7}>
+                        <Badge className="h-10 w-10" count={notificationCont} overflowCount={10}>
                             {loading ? (
                                 <Skeleton.Avatar active size={50} />
                             ) : (
@@ -136,7 +139,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                     key: "1",
                                     icon: <AiFillHeart />,
                                     label: <NavLink end to="/dashboard/liked-products">Liked Products</NavLink>,
-                                },
+                                }
                             ]
 
                         }

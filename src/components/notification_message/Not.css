@@ -1,0 +1,5 @@
+
+
+.ant-carousel .slick-dots {
+    display: none !important; /* Hides the dots */
+}

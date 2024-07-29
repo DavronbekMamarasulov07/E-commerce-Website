@@ -6,16 +6,23 @@ import { Table, Image } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
 const LikedProducts = () => {
-  const [{ payload }, loading] = useFetch("/product/all");
+  const [{ payload }, loading] = useFetch("/product/most-popular");
   const [data, setData] = useState([]);
-
   console.log(payload)
+
+  const [profileData,isLoading] = useFetch("/auth/profile")
+  console.log(profileData.payload)
+
+  const userRole = profileData?.payload?.role
+
   useEffect(() => {
-    if (payload) {
-      const filteredProducts = payload.filter(product => product.likes >= 1);
-      setData(filteredProducts);
-    }
-  }, [payload]);
+      if(userRole === "admin"){
+        setData(payload)
+      }
+      else{
+        setData(payload?.filter((product) => product.likedby.includes(profileData?.payload?.username)))
+      }
+  }, [payload])
 
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -92,7 +99,7 @@ const LikedProducts = () => {
 
       <div key={uuidv4()} className='flex gap-4'>
       {
-        images?.map((image) => (
+        images?.slice(0, 3).map((image) => (
           <Image
             width={50}
             src={image}
@@ -136,3 +143,4 @@ const LikedProducts = () => {
 }
 
 export default LikedProducts;
+

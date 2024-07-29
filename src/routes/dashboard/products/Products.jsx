@@ -130,7 +130,7 @@ const Products = () => {
     }} > 
 
       {
-        images?.map((image) => (
+        images?.slice(0, 3).map((image) => (
           <Image
             width={50}
             src={image}

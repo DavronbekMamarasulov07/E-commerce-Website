@@ -5,10 +5,15 @@ import { Carousel, notification } from "antd";
 import { useState } from "react";
 import { Clothers } from "../comments/Comments";
 import { comment_clothers } from "../../db";
+import "./Details.css"
+
+
 
 const Details = ({ product }) => {
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
+
+   
 
     const contentStyle = {
         height: '100%',
@@ -60,15 +65,24 @@ const Details = ({ product }) => {
                     {product?.product_name}
                 </Link>
             </div>
-            <div className="grid grid-cols-2 gap-10 mt-9  border-b pb-10">
-                <div className="rounded-3xl">
-                    <Carousel arrows autoplay autoplaySpeed={3000} infinite={true} fade >
+            <div className="grid grid-cols-2  mt-9  border-b pb-10">
+                <div className="flex items-center gap-6">
+                    <div className="flex flex-col gap-3 ">
                         {product?.product_images?.map((image, index) => (
-                            <div className="rounded-3xl overflow-hidden bg-black " key={index}>
+                            <div className="image_card  rounded-3xl w-[100px]  overflow-hidden bg-black " key={index}>
                                 <img src={image} className="scale-75 " style={contentStyle} alt="image" />
                             </div>
                         ))}
-                    </Carousel>
+                    </div>
+                    <div className="rounded-3xl w-full max-w-[470px]">
+                        <Carousel arrows autoplay autoplaySpeed={3000} infinite={true} fade >
+                            {product?.product_images?.map((image, index) => (
+                                <div className="rounded-3xl overflow-hidden bg-black " key={index}>
+                                    <img src={image} className="scale-75 " style={contentStyle} alt="image" />
+                                </div>
+                            ))}
+                        </Carousel>
+                    </div>
                 </div>
                 <div>
                     <h2 className="text-[40px]">
@@ -86,13 +100,13 @@ const Details = ({ product }) => {
                     <div className="text-[#0000009a] text-lg mb-4 border-b pb-4">
                         {product?.description}
                     </div>
-                    <div className="text-[#0000009a] text-lg mb-4 border-b pb-4">
+                    <div className="text-[#0000009a] text-lg mb-4 border-b pb-2">
                         {product?.description}
                     </div>
                     <div className="flex items-center justify-between mt-12 gap-5">
                         <div className="flex items-center gap-8 bg-[#F0F0F0] py-4 px-5 rounded-[62px]" >
                             <AiOutlineMinus className="cursor-pointer text-3xl font-bold" onClick={handleDecrementCount} />
-                            <strong className="text-3xl">{count}</strong>
+                            <strong className="text-2xl">{count}</strong>
                             <AiOutlinePlus className="cursor-pointer text-3xl font-bold" onClick={handleIncrementCount} />
                         </div>
                         <div className="bg-[#000] text-white py-4 px-5 rounded-[62px] flex-1 text-center transition-transform hover:bg-[#1d1d1de9] active:scale-90">

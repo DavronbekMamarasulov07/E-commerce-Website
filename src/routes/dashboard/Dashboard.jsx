@@ -2,7 +2,7 @@ import { Layout } from 'antd'
 import  { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../../components/sidebar/Sidebar';
-import Hearder from '../../components/dsshboard_header/DashboardHearder';
+import Hearder from '../../components/dashboard_header/DashboardHearder';
 import {useFetch} from '../../hooks/useFetch'
 
 const { Content } = Layout

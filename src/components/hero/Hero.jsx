@@ -1,12 +1,11 @@
 import React from 'react'
 import Container from '../container/Container'
 import hero_image from "../../images/hero.png"
-import "./Hero.css"
 
 
 const Hero = () => {
   return (
-    <div  className='w-full bg-[#F2F0F1] '>
+    <div className='w-full bg-[#F2F0F1] '>
       <Container>
         <div className='flex  items-center justify-between'>
           <div className='flex flex-col gap-8 py-[120px]'>
@@ -27,7 +26,7 @@ const Hero = () => {
               </div>
               <div className='flex flex-col border-r pr-8'>
                 <strong className='font-bold text-[#000] text-[40px]'>
-                2,000+
+                  2,000+
                 </strong>
                 <span className='text-[#0000008f] text-base font-normal'>
                   High-Quality Products
@@ -35,16 +34,16 @@ const Hero = () => {
               </div>
               <div className='flex flex-col '>
                 <strong className='font-bold text-[#000] text-[40px]'>
-                  30,000 + 
+                  30,000 +
                 </strong>
                 <span className='text-[#0000008f] text-base font-normal'>
-                Happy Customers
+                  Happy Customers
                 </span>
               </div>
             </div>
           </div>
           <div className='flex items-end justify-end'>
-            <img src={hero_image} alt=""  className='w-[500px]' />
+            <img src={hero_image} alt="" className='w-[500px]' />
           </div>
         </div>
       </Container>

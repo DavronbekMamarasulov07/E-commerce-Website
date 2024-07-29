@@ -1,0 +1,12 @@
+.image_card:hover{
+    box-shadow:  0px 0px 10px #000;;
+}
+.image_card img{
+    transition: 0.2s;
+}
+
+.image_card:hover img{
+    transform: scale(0.9);
+}
+
+
