@@ -36,7 +36,7 @@ const Details = ({ product }) => {
     };
 
     return (
-        <div>
+        <div >
             <div className="flex items-center gap-4">
                 <Link to="/" className="flex items-center gap-2 text-[#0000009a]">
                     Home <MdArrowForwardIos />
@@ -52,11 +52,11 @@ const Details = ({ product }) => {
                 </Link>
             </div>
             <div className="grid grid-cols-2 gap-10 mt-9  border-b pb-10">
-                <div>
-                    <Carousel arrows autoplay autoplaySpeed={3000} infinite={true} effect="fade">
+                <div className="rounded-3xl">
+                    <Carousel arrows autoplay autoplaySpeed={3000} infinite={true} fade >
                         {product?.product_images?.map((image, index) => (
                             <div className="rounded-3xl overflow-hidden bg-black " key={index}>
-                                <img src={image} className="scale-75 " style={contentStyle} />
+                                <img src={image} className="scale-75 " style={contentStyle} alt="image" />
                             </div>
                         ))}
                     </Carousel>
@@ -77,6 +77,9 @@ const Details = ({ product }) => {
                     <div className="text-[#0000009a] text-lg mb-4 border-b pb-4">
                         {product?.description}
                     </div>
+                    <div className="text-[#0000009a] text-lg mb-4 border-b pb-4">
+                        {product?.description}
+                    </div>
                     <div className="flex items-center justify-between mt-12 gap-5">
                         <div className="flex items-center gap-8 bg-[#F0F0F0] py-4 px-5 rounded-[62px]" >
                             <AiOutlineMinus onClick={handleDecrementCount} />
@@ -89,10 +92,10 @@ const Details = ({ product }) => {
                     </div>
                 </div>
             </div >
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
                 <h2 className="text-[28px] font-semibold my-8 flex items-center gap-2">All Reviews <span className="text-[#0000009a] text-lg mt-1">({comment_clothers.length})</span></h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
-                    {comment_clothers.map(item => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7 mb-[100px]">
+                    {comment_clothers?.map(item => (
                         <Clothers key={item.id} item={item} />
                     ))}
                 </div>
