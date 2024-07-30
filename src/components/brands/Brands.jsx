@@ -11,7 +11,7 @@ import './Brands.css';
 const Brands = () => {
   return (
     <div className='w-full bg-[#000] overflow-hidden'>
-        <div className='brands-scroll-container'>
+      <div className='brands-scroll-container'>
           <div className='brands-scroll-content'>
             <img  src={brandV} alt="brandV" />
             <img  src={brandZ} alt="brandZ" />
