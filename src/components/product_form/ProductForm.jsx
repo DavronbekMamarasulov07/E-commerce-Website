@@ -4,7 +4,7 @@ import "./ProductsForm.css"
 import { useFetch } from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Loading } from "../../utils";
+import axios from "../../api"
 
 const { TextArea } = Input;
 
@@ -19,9 +19,16 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
     const [form] = Form.useForm();
 
 
+
+    
+
+    
+
+
     const onFinish = async (values) => {
         const url = updateProduct ? `/product/update/${updateProduct._id}` : "/product/create";
         const method = updateProduct ? "PUT" : "POST";
+
 
         try {
             const response = await fetch("http://localhost:8000" + url, {
@@ -45,8 +52,6 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
             }
             console.log(response)
 
-            
-            
         } catch (error) {
             console.error('Error:', error);
             notification.error({
@@ -101,7 +106,7 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                 style={{
                     marginTop: 12,
                     maxWidth: 500,
-                   
+
                 }}
                 initialValues={updateProduct}
                 onFinish={onFinish}
@@ -215,7 +220,7 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                 </Form.Item>
 
                 <Form.Item
-                    required  
+                    required
                     label="Product Images"
                     name="product_images"
                     rules={[
@@ -248,7 +253,7 @@ const ProductForm = ({ setIsModalOpen, updateProduct, setUpdateProduct }) => {
                         span: 24,
                     }}
                 >
-                    <Button  type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit">
                         Save
                     </Button>
                 </Form.Item>

@@ -1,6 +1,7 @@
-import { AiOutlineDropbox } from "react-icons/ai"; 
+import { IoMdNotifications } from "react-icons/io"; 
+import { AiFillBook, AiOutlineDropbox } from "react-icons/ai"; 
 import { BsFillDoorOpenFill } from "react-icons/bs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Avatar,
     Badge,
@@ -26,11 +27,20 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState("You will be signed out");
+    const [trigger, setTrigger] = useState(false);
+    const [count, setCount] = useState(0);
     const role = userProfileData?.role
 
-    const [notificationData] = useFetch("/notifications/all")
-    const notificationCont = notificationData.payload?.length
+    const [notificationData] = useFetch("/notifications/all", trigger);
 
+    useEffect(() => {
+        if (notificationData) {
+            setCount(notificationData?.payload?.length);
+        }
+        setTrigger(!trigger);
+    }, [notificationData]);
+
+    
     const handleOk = () => {
         setModalText("Signed out successfully");
 
@@ -68,7 +78,7 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
             >
                 <NavLink to="/dashboard/profile" className="mb-6">
                     <div className="flex items-center gap-5 p-3  ">
-                        <Badge className="h-10 w-10" count={notificationCont} overflowCount={10}>
+                        <Badge className="h-10 w-10" count={count} overflowCount={10}>
                             {loading ? (
                                 <Skeleton.Avatar active size={50} />
                             ) : (
@@ -132,6 +142,11 @@ const Sidebar = ({ collapsed, userProfileData, loading }) => {
                                 key: "3",
                                 icon: <AiFillHeart />,
                                 label: <NavLink to="/dashboard/liked-products">Liked Products</NavLink>,
+                            },
+                            {
+                                key: "4",
+                                icon: <IoMdNotifications />,
+                                label: <NavLink to="/dashboard/notification">Notification</NavLink>,
                             }
                         ] :
                             [

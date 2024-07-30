@@ -1,29 +1,24 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 import { DashboardTitle } from '../../../utils';
-import { Table, Image } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
+import { Table, Image, Avatar, Tooltip } from 'antd';
 
 const LikedProducts = () => {
-  const [{ payload }, loading] = useFetch("/product/most-popular");
+  const [{ payload: products, loading: productsLoading }] = useFetch("/product/most-popular");
+  const [{ payload: profileData, loading: profileLoading }] = useFetch("/auth/profile");
+
   const [data, setData] = useState([]);
 
-
-
-  const [profileData] = useFetch("/auth/profile")
-  console.log(profileData.payload)
-
-  const userRole = profileData?.payload?.role
-
   useEffect(() => {
-      if(userRole === "admin"){
-        const filteredData = payload?.filter((product) => product.likes >= 1 )
-        setData(filteredData)
+    if (profileData && products) {
+      const userRole = profileData.role;
+      if (userRole === "admin") {
+        setData(products.filter(product => product.likes >= 1));
+      } else if (userRole === "user") {
+        setData(products.filter(product => product.likedby.includes(profileData.username)));
       }
-      else{
-        setData(payload?.filter((product) => product.likedby.includes(profileData?.payload?.username)))
-      }
-  }, [payload])
+    }
+  }, [products, profileData]);
 
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -80,37 +75,62 @@ const LikedProducts = () => {
       key: "Liked_by",
       title: 'Liked By',
       dataIndex: 'likedby',
-      render: (likedby) => (
-        <div key={uuidv4()} >
-          {likedby && likedby.length > 0 ? 
-            likedby.map(user => user[0].toUpperCase()).join(', ')
-            : 'No likes'
-          }
-        </div>
-      ),
+      render: (likedby) => {
+        if (!likedby || likedby.length === 0) return 'No likes';
+
+        const displayedUsers = likedby.length > 3 ? likedby.slice(0, 3) : likedby;
+        const additionalCount = likedby.length > 3 ? `+${likedby.length - 3}` : '';
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+            {displayedUsers.map((user, index) => (
+              <Tooltip key={index} title={user} placement="top">
+                <Avatar
+                  style={{
+                    backgroundColor: '#f56a00',
+                    margin: '2px',
+                  }}
+                >
+                  {user.slice(0, 1).toUpperCase()}
+                </Avatar>
+              </Tooltip>
+            ))}
+            {additionalCount && (
+              <Tooltip title={`And ${likedby.length - 3} more`} placement="top">
+                <Avatar
+                  style={{
+                    backgroundColor: '#87d068',
+                    margin: '2px',
+                  }}
+                >
+                  {additionalCount}
+                </Avatar>
+              </Tooltip>
+            )}
+          </div>
+        );
+      },
       sorter: true,
     },
     {
       key: "Image",
       title: "Product Images",
       dataIndex: "product_images",
-      render: (images) => <Image.PreviewGroup preview={{
-      onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
-    }} > 
-
-      <div key={uuidv4()} className='flex gap-4'>
-      {
-        images?.slice(0, 3).map((image) => (
-          <Image
-            width={50}
-            src={image}
-          />
-        ))
-      }
-      </div>
-    
-    </Image.PreviewGroup>,
-      with: '30%',
+      render: (images) => (
+        <Image.PreviewGroup preview={{
+          onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
+        }}>
+          <div className='flex gap-4'>
+            {images?.slice(0, 3).map((image, index) => (
+              <Image
+                key={index}
+                width={50}
+                src={image}
+              />
+            ))}
+          </div>
+        </Image.PreviewGroup>
+      ),
     }
   ];
 
@@ -133,15 +153,11 @@ const LikedProducts = () => {
         rowKey="_id"
         dataSource={data}
         pagination={tableParams.pagination}
-        loading={loading}
+        loading={productsLoading || profileLoading}
         onChange={handleTableChange}
-        maxHeight={500}
-        minHeight={500}
-        overflow="hidden"
       />
     </div>
   );
 }
 
 export default LikedProducts;
-

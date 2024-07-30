@@ -19,6 +19,7 @@ const Details = ({ product }) => {
 
     const contentStyle = {
         height: '100%',
+        
         color: '#fff',
         textAlign: 'center',
         background: '#000',

@@ -2,8 +2,7 @@ import {lazy, useEffect, useState } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import Suspense from '../utils/index.jsx'
 import { useSelector } from 'react-redux'
-import LikedProducts from './dashboard/liked_products/LikedProducts.jsx'
-import ProductDetails from './product_details/ProductDetails.jsx'
+
 
 const Login = lazy (() => import('./auth/login/Login.jsx'))
 const Register = lazy    (() => import('./auth/register/Register.jsx'))
@@ -16,6 +15,9 @@ const Auth = lazy (() => import('./auth/Auth.jsx'))
 const Dashboard = lazy (() => import('./dashboard/Dashboard.jsx'))
 const Protected = lazy (() => import('./protected/Protecdet.jsx'))
 const NotFound = lazy (() => import('./not-found/NotFound.jsx'))
+const Notification = lazy (() => import('./notification/Notification.jsx'))
+const ProductDetails = lazy (() => import('./product_details/ProductDetails.jsx'))
+const LikedProducts = lazy (() => import('./dashboard/liked_products/LikedProducts.jsx'))
 
 
 const RoutesController = () => {
@@ -76,6 +78,10 @@ const RoutesController = () => {
                     {
                         path: "liked-products",
                         element: <Suspense ><LikedProducts/></Suspense>,
+                    },
+                    {
+                        path: "notification",
+                        element: <Suspense ><Notification/></Suspense>,
                     }
                 ]
             },

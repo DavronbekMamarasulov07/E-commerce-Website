@@ -57,6 +57,7 @@ const Products = () => {
     setDeleteProduct(null)
   }
 
+
   const columns = [
     {
       title: 'No.',
@@ -125,15 +126,16 @@ const Products = () => {
       key: "Image",
       title: "Product Images",
       dataIndex: "product_images",
-      render: (images) => <Image.PreviewGroup preview={{
+      render: (images) => <Image.PreviewGroup  preview={{
       onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
     }} > 
 
       {
-        images?.slice(0, 3).map((image) => (
+        images?.slice(0, 3).map((image, index) => (
           <Image
             width={50}
             src={image}
+            key={index}
           />
         ))
       }
