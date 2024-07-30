@@ -9,6 +9,7 @@ const Register = lazy    (() => import('./auth/register/Register.jsx'))
 const Products = lazy (() => import('./dashboard/products/Products.jsx'))
 const Users = lazy (() => import('./dashboard/users/Users.jsx'))
 const Profile = lazy (() => import('./dashboard/profile/Profile.jsx'))
+const Category = lazy (() => import('./category/Category.jsx'))
 
 const Home = lazy (() => import('./home/Home.jsx'))
 const Auth = lazy (() => import('./auth/Auth.jsx'))
@@ -91,6 +92,10 @@ const RoutesController = () => {
     {
         path:"product-details/:productId",
         element: <Suspense ><ProductDetails/></Suspense>,
+    },
+    {
+        path: "category-list/:category",
+        element: <Suspense ><Category/></Suspense>,
     },
     {
 

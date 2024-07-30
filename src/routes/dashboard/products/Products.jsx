@@ -1,13 +1,12 @@
-import { Modal, Button, notification, Image } from "antd";
+import { Modal, Button, notification, Image, InputNumber } from "antd";
 import TableComponent from "../../../components/table/Table";
 import { DashboardTitle } from "../../../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductForm from "../../../components/product_form/ProductForm";
 import axios from "../../../api"
 
 
 const Products = () => {
-
   const [updateProduct, setUpdateProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(null);
@@ -17,6 +16,8 @@ const Products = () => {
       pageSize: 5,
     },
   });
+
+  
 
 
   const showModal = () => {
@@ -48,13 +49,43 @@ const Products = () => {
         message: 'Product Deleted',
         description: 'Product has been deleted.',
       });
-      setTimeout(() => {
+     setTimeout(() => {
         location.reload()
-      }, 200);
+      }, 300)
     } catch (error) {
       console.log(error)
     }
     setDeleteProduct(null)
+  }
+
+  const handleQuantityIncrement = async (id) => {
+    try {
+      const res = await axios.patch(`/product/product-increment/${id}`);
+      setTimeout(() => {
+        location.reload()
+      }, 300)
+      notification.success({
+        message: 'Quantity Updated',
+        description: 'Quantity has been incremented.',
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleQuantityDecrement = async (id) => {
+    try {
+      const res = await axios.patch(`/product/product-decrement/${id}`);
+      setTimeout(() => {
+        location.reload()
+      }, 300)
+      notification.success({
+        message: 'Quantity Updated',
+        description: 'Quantity has been decremented.',
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -118,9 +149,13 @@ const Products = () => {
       title: 'Quantity',
       dataIndex: 'number_in_stock',
       sorter: true,
-      with: '30%',
-
-
+      render: (quantity, record) => (
+        <div style={{ display: 'flex', alignItems: 'center',  justifyContent: 'center', gap: '10px'}}>
+          <Button danger disabled={quantity === 0} type="primary" onClick={() => handleQuantityDecrement(record._id)}>-</Button>
+          <InputNumber min={0} value={quantity} style={{ display: 'flex', alignItems: 'center',  justifyContent: 'center' , width: '50px'  }} readOnly />
+          <Button type="primary" onClick={() => handleQuantityIncrement(record._id)}>+</Button>
+        </div>
+      ),
     },
     {
       key: "Image",

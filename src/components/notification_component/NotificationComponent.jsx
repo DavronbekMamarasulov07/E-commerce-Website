@@ -1,54 +1,57 @@
-import { MdOutlineDelete } from "react-icons/md";
-import { MdSend } from "react-icons/md";
-import { useEffect, useState } from "react";
-import { Button, Form, Input, notification , Modal} from "antd";
+import { MdOutlineDelete, MdSend } from "react-icons/md";
+import {  useEffect, useState } from "react";
+import { Button, Form, Input, notification, Modal } from "antd";
 import axios from "../../api";
 import { DashboardTitle } from "../../utils";
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Space, Switch } from 'antd';
-import "./Notification.css"
-
-
-
-
-
+import "./Notification.css";
 
 const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
 };
+
 const NotificationComponent = () => {
 
     const [listNotification, setListNotification] = useState([]);
     const [deleteNotification, setDeleteNotification] = useState(null);
     const [form] = Form.useForm();
+
     
-
-
-
-
-
-
     const RenderingNotification = async () => {
         try {
             const res = await axios.get("/notifications/all");
             setListNotification(res.data.payload);
+            console.log(res.data.payload);
         } catch (error) {
             console.log(error);
         }
     };
 
-
     useEffect(() => {
         RenderingNotification();
     }, []);
 
-    
+
+    const handleUpdate = async (id) => {
+        try {
+            const res = await axios.patch(`/notifications/update/`, {
+                _id: id,
+                active: true,
+            });
+
+            notification.success({
+                message: "Success",
+                description: `Notification read successfully.`,
+            });
+            await RenderingNotification();
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const onFinish = async (values) => {
         const notificationMessage = values.message.trim();
-        
 
-        if (notificationMessage.length >= 5 ){
+        if (notificationMessage.length >= 5) {
             try {
                 const res = await axios.post("/notifications/create", {
                     message: notificationMessage,
@@ -57,39 +60,35 @@ const NotificationComponent = () => {
                 notification.success({
                     message: "Success",
                     description: `Notification has been created.`,
-                })
+                });
                 form.resetFields();
             } catch (error) {
                 notification.error({
                     message: "Error",
                     description: `Something went wrong.`,
-                })
-
+                });
             }
-        }
-        else{
+        } else {
             notification.error({
                 message: "Error",
                 description: `Do not leave the message field empty or less than 5 characters.`,
-            })
+            });
         }
     };
 
-
-      const handledeleteNotification = async () => {
+    const handleDeleteNotification = async () => {
         try {
-          const res = await axios.delete(`/notifications/delete/${deleteNotification._id}`);
-          notification.success({
-              message: "Success",
-              description: `Notification has been deleted.`,
-            })
-            RenderingNotification();
-
+            const res = await axios.delete(`/notifications/delete/${deleteNotification._id}`);
+            notification.success({
+                message: "Success",
+                description: `Notification has been deleted.`,
+            });
+            await RenderingNotification();
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
         setDeleteNotification(null);
-      };
+    };
 
     return (
         <div>
@@ -99,7 +98,6 @@ const NotificationComponent = () => {
                 name="basic"
                 style={{
                     width: "100%",
-
                     display: "flex",
                     alignItems: "end",
                     justifyContent: "start",
@@ -148,14 +146,10 @@ const NotificationComponent = () => {
                     {
                         listNotification.map((item, index) => {
                             return (
-                                <div key={index} className="border p-3 mb-3 rounded-xl flex justify-between items-center gap-7">
+                                <div key={index} className="border p-6 mb-3 rounded-xl flex justify-between items-center gap-7" style={{ background: item.active ? "#3dc827" : "white" , color: item.active ? "white" : "black" }}>
                                     <p className="text-[18px]">{item.message}</p>
-                                    <div>
-                                        <Switch
-                                            checkedChildren={<CheckOutlined />}
-                                            unCheckedChildren={<CloseOutlined />}
-                                            defaultChecked
-                                        />
+                                    <div className="flex gap-3">
+                                        <Button type="primary" style={{display: !item.active ? "none" : "block"}}  onClick={() => handleUpdate(item._id)}>Mark as read </Button>
                                         <Button danger type="primary" className="text-[18px]" onClick={() => setDeleteNotification(item)}><MdOutlineDelete /> Delete</Button>
                                     </div>
                                 </div>
@@ -168,7 +162,7 @@ const NotificationComponent = () => {
                     maskClosable={false}
                     title={`Delete Notification`}
                     open={Boolean(deleteNotification)}
-                    onOk={handledeleteNotification}
+                    onOk={handleDeleteNotification}
                     onCancel={() => setDeleteNotification(null)}
                     okButtonProps={{
                         danger: true
@@ -180,4 +174,5 @@ const NotificationComponent = () => {
         </div>
     );
 };
+
 export default NotificationComponent;

@@ -1,19 +1,28 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import axios from "../../api";
-import { Carousel, notification, Button, Skeleton, Typography } from "antd";
+import {
+  Carousel,
+  notification,
+  Button,
+  Skeleton,
+  Typography,
+  Dropdown,
+  Space,
+} from "antd";
 import { useFetch } from "../../hooks/useFetch";
-import React, { useState } from "react";
+import { useState } from "react";
 import Container from "../../components/container/Container";
 import { Link } from "react-router-dom";
+import CategoriesType from "../categories_type/CategoriesType";
 
 const AllProducsts = ({}) => {
   const [trigger, setTrigger] = useState(false);
-  const [{ payload }] = useFetch("/product/all", trigger);
+  const [{ payload }, loading] = useFetch("/product/all", trigger);
   const [step, setStep] = useState(1);
+  let count = 4;
 
   const { Title } = Typography;
-  const [data, loading] = useFetch("/auth/profile");
-  let count = 4;
+  const [data] = useFetch("/auth/profile");
 
   const handleLikeProduct = async (product) => {
     try {
@@ -52,8 +61,9 @@ const AllProducsts = ({}) => {
   return (
     <Container>
       <div className="my-[100px]">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col">
           <Title level={2}>All Products</Title>
+          <CategoriesType />
         </div>
         <div className="mt-14 grid grid-cols-4 gap-5">
           {loading
@@ -85,7 +95,7 @@ const AllProducsts = ({}) => {
                 <div
                   className="product_card mb-[30px] gap-2 rounded-3xl"
                   key={product?._id}
-                >
+                  >
                   <div className="relative h-[300px] w-[300px] overflow-hidden rounded-3xl bg-[#F0EEED]">
                     <div className="t-3 l-3 absolute z-10 flex w-full items-center justify-between px-4 py-3">
                       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-base text-red-600">

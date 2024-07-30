@@ -2,38 +2,19 @@ import { BiUserCircle } from "react-icons/bi";
 import { BsFillBasket2Fill } from "react-icons/bs";
 import { BiSearch } from "react-icons/bi";
 import Container from '../container/Container';
-import { DownOutlined } from '@ant-design/icons';
-import { AutoComplete, Dropdown, Space } from 'antd';
+import { AutoComplete } from 'antd';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from "../../images/dm.png";
 import "./Navbar.css";
 import { useState } from "react";
 import axios from "../../api";
 
-const items = [
-    {
-        label: (
-            <a target="_blank" rel="noopener noreferrer">
-                Clothers
-            </a>
-        ),
-        key: '0',
-    },
-    {
-        label: (
-            <a target="_blank" rel="noopener noreferrer">
-                Electronics
-            </a>
-        ),
-        key: '1',
-    }
-];
 
 const Navbar = () => {
+    const [searchData, setSearchData] = useState({ payload: [] });
     const navigate = useNavigate();
-    const [searchData, setSearchData] = useState({
-        payload: [],
-    });
+    
+    
 
     const loadData = async (searchText) => {
         try {
@@ -48,10 +29,6 @@ const Navbar = () => {
         console.log('onSelect', data);
     };
 
-    const onChange = (data) => {
-        setValue(data);
-    };
-
     return (
         <Container>
             <div>
@@ -61,20 +38,8 @@ const Navbar = () => {
                     </Link>
                     <div>
                         <ul className="flex items-center gap-6">
-                            <li key="shop">
-                                <Dropdown
-                                    menu={{
-                                        items,
-                                    }}
-                                >
-                                    <a onClick={(e) => e.preventDefault()}>
-                                        <Space className='cursor-pointer'>
-                                            Shop
-                                            <DownOutlined />
-                                        </Space>
-                                    </a>
-                                </Dropdown>
-                            </li>
+
+                            
                             <li key="on-sale">
                                 <NavLink>On Sale</NavLink>
                             </li>
@@ -90,12 +55,9 @@ const Navbar = () => {
                         <form className="flex items-center gap-3 bg-[#F0F0F0] w-[580px] py-1 px-4 rounded-[62px]">
                             <BiSearch className="text-[#0000005f] text-2xl" />
                             <AutoComplete
-                                options={searchData.payload?.map((item) => {
-                                    return {
-                                        label: <><Link key={item._id} to={`/product-details/${item._id}`}>{item.product_name}</Link></>,
-                                        
-                                    };
-                                })}
+                                options={searchData.payload?.map((item) => ({
+                                    label: <Link key={item._id} to={`/product-details/${item._id}`}>{item.product_name}</Link>
+                                }))}
                                 className="search_input"
                                 onSelect={onSelect}
                                 onSearch={(text) => text ? loadData(text) : setSearchData({ payload: [] })}
