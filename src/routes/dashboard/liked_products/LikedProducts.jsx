@@ -83,30 +83,34 @@ const LikedProducts = () => {
 
         return (
           <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
-            {displayedUsers.map((user, index) => (
-              <Tooltip key={index} title={user} placement="top">
-                <Avatar
-                  style={{
-                    backgroundColor: '#f56a00',
-                    margin: '2px',
-                  }}
-                >
-                  {user.slice(0, 1).toUpperCase()}
-                </Avatar>
-              </Tooltip>
-            ))}
-            {additionalCount && (
-              <Tooltip title={`And ${likedby.length - 3} more`} placement="top">
-                <Avatar
-                  style={{
-                    backgroundColor: '#87d068',
-                    margin: '2px',
-                  }}
-                >
-                  {additionalCount}
-                </Avatar>
-              </Tooltip>
-            )}
+              {displayedUsers.map((user, index) => (
+            <Avatar.Group>
+                <Tooltip key={index} title={user} placement="top">
+                  <Avatar
+                    style={{
+                      backgroundColor: '#f56a00',
+                      margin: '2px',
+                    }}
+                  >
+                    {user.slice(0, 1).toUpperCase()}
+                  </Avatar>
+                </Tooltip>
+              </Avatar.Group>
+              ))}
+              {additionalCount && (
+                <Avatar.Group>
+                <Tooltip title={`And ${likedby.length - 3} more`} placement="top">
+                  <Avatar
+                    style={{
+                      backgroundColor: '#87d068',
+                      margin: '2px',
+                    }}
+                  >
+                    {additionalCount}
+                  </Avatar>
+                </Tooltip>
+           </Avatar.Group>
+              )}
           </div>
         );
       },

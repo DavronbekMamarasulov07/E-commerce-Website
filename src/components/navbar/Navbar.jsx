@@ -56,7 +56,7 @@ const Navbar = () => {
                             <BiSearch className="text-[#0000005f] text-2xl" />
                             <AutoComplete
                                 options={searchData.payload?.map((item) => ({
-                                    label: <Link key={item._id} to={`/product-details/${item._id}`}>{item.product_name}</Link>
+                                    label: <Link className="block" key={item._id} to={`/product-details/${item._id}`}>{item.product_name}</Link>
                                 }))}
                                 className="search_input"
                                 onSelect={onSelect}
