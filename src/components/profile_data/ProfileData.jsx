@@ -1,19 +1,11 @@
 import React from "react";
-import { DashboardTitle, Loading } from "../../utils";
-import { Image, Typography, Modal, notification, Button, } from "antd";
-import { GiCancel } from "react-icons/gi";
-import { useState } from 'react';
-import axios from "../../api";
-import { useFetch } from "../../hooks/useFetch";
-
-const { Title, Text } = Typography;
+import {  Loading } from "../../utils";
+import { Image, Typography } from "antd";
+import moment from "moment";
+const { Title } = Typography;
 
 
 const ProfileData = ({ profileData, loading }) => {
-  
-
-
-
   
 
   
@@ -68,13 +60,13 @@ const ProfileData = ({ profileData, loading }) => {
               <div className="flex items-center  gap-5">
                 <strong className="text-xl ">Created At:</strong>
                 <Title style={{ margin: 0, color: "dodgerblue" }} level={4}>
-                  {new Date(profileData?.createdAt).toLocaleDateString('uz-UZ', { timeZone: 'Asia/Tashkent' })}
+                  {moment(profileData?.createdAt).locale("uz").format("LLLL")}
                 </Title>
               </div>
               <div className="flex items-center  gap-5">
                 <strong className="text-xl ">Updated At:</strong>
                 <Title style={{ margin: 0, color: "dodgerblue" }} level={4}>
-                  {new Date(profileData?.updatedAt).toLocaleDateString('uz-UZ', { timeZone: 'Asia/Tashkent' })}
+                    {moment(profileData?.updatedAt).locale("uz").format("LLLL")}
                 </Title>
               </div>
             </div>
