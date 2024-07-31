@@ -62,13 +62,13 @@ const Details = ({ product }) => {
                 <Link to="/" className="flex items-center gap-2 text-[#0000009a]">
                     Home <MdArrowForwardIos />
                 </Link>
-                <Link className="flex items-center gap-2 text-[#0000009a]">
+                <Link to={`/category-list/${product?.category}`} className="flex items-center gap-2 text-[#0000009a]">
                     {product?.category} <MdArrowForwardIos />
                 </Link>
                 <Link className="flex items-center gap-2 text-[#0000009a]">
                     {product?.product_type} <MdArrowForwardIos />
                 </Link>
-                <Link className="flex items-center gap-2 text-[#0000009a]">
+                <Link to={`/category-list/${product?._id}`} className="flex items-center gap-2 text-[#0000009a]">
                     {product?.product_name}
                 </Link>
             </div>
