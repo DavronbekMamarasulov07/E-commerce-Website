@@ -1,0 +1,33 @@
+.brands-scroll-container {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    background: #000;
+    margin: 0 auto;
+    max-width: 1300px;
+  }
+  
+  .brands-scroll-content {
+    margin:  0 auto ;
+    padding: 40px;
+    display: flex;
+    white-space: nowrap;
+    animation: scroll-left 15s linear infinite;
+    gap: 30px;
+    place-items: center;
+  }
+  
+  .brands-scroll-content img {
+    height: 50px;
+    margin-right: 20px; 
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  

@@ -1,0 +1,21 @@
+.search_input{
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    outline: none;
+}
+
+/* .search_input */
+
+.ant-select-selector{
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.cascader{
+    border: 1px solid #d9d9d9;
+}
+

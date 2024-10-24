@@ -1,0 +1,17 @@
+.ant-menu-item{
+    background-color: transparent;
+}
+
+.ant-menu-item:has(.active){
+    background-color: #1677ff;
+    color: #fff;
+}
+
+ .ant-menu-item:has(.active):hover{
+    background-color: #1677ff !important;
+}
+
+.ant-layout-sider-children{
+    display: flex;
+    flex-direction: column;
+}
