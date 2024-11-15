@@ -39,7 +39,7 @@ const Messages = () => {
           <div className='w-full bg-black  '>
       <Container>
               <Carousel autoplay arrows effect="fade" infinite={true} className='w-full max-w-[500px] mx-auto overflow-auto'>
-                  {notificationsList.map((notification) => (
+                  {notificationsList?.map((notification) => (
                       <div
                           key={notification._id}
                           style={contentStyle}
